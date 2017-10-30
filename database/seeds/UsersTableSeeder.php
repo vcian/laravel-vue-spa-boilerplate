@@ -1,9 +1,9 @@
 <?php
 
 use App\User;
+use Database\DisableForeignKeys;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
-use Database\DisableForeignKeys;
 
 /**
  * Class UsersTableSeeder.
@@ -22,9 +22,9 @@ class UsersTableSeeder extends Seeder
         $this->disableForeignKeys();
         $this->truncate('users');
 
-        factory(User::class,1)->create([
+        factory(User::class, 1)->create([
             'email'    => 'admin@admin.com',
-            'password' =>  bcrypt('1234')
+            'password' => bcrypt('1234'),
         ]);
 
         $this->enableForeignKeys();
