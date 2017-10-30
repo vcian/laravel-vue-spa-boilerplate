@@ -1,6 +1,6 @@
 <?php
 
-use App\User;
+use App\Models\User;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;

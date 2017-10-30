@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use JWTAuth;
 use Validator;
+use App\Models\Task;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -12,7 +14,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = \App\User::with('profile');
+        $users = User::with('profile');
 
         if (request()->has('first_name')) {
             $query->whereHas('profile', function ($q) use ($request) {
@@ -129,7 +131,7 @@ class UserController extends Controller
             return response()->json(['message' => 'You are not allowed to perform this action in this mode.'], 422);
         }
 
-        $user = \App\User::find($id);
+        $user = User::find($id);
 
         if (!$user) {
             return response()->json(['message' => 'Couldnot find user!'], 422);
@@ -146,9 +148,9 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $users_count = \App\User::count();
-        $tasks_count = \App\Task::count();
-        $recent_incomplete_tasks = \App\Task::whereStatus(0)->orderBy('due_date', 'desc')->limit(5)->get();
+        $users_count = User::count();
+        $tasks_count = Task::count();
+        $recent_incomplete_tasks = Task::whereStatus(0)->orderBy('due_date', 'desc')->limit(5)->get();
 
         return response()->json(compact('users_count', 'tasks_count', 'recent_incomplete_tasks'));
     }

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Validator;
+use App\Models\Task;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = \App\Task::whereNotNull('id');
+        $tasks = Task::whereNotNull('id');
 
         if (request()->has('title')) {
             $tasks->where('title', 'like', '%'.request('title').'%');
@@ -38,7 +39,7 @@ class TaskController extends Controller
         }
 
         $user = \JWTAuth::parseToken()->authenticate();
-        $task = new \App\Task();
+        $task = new Task();
         $task->fill(request()->all());
         $task->uuid = generateUuid();
         $task->user_id = $user->id;
@@ -49,7 +50,7 @@ class TaskController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $task = \App\Task::find($id);
+        $task = Task::find($id);
 
         if (!$task) {
             return response()->json(['message' => 'Couldnot find task!'], 422);
@@ -62,7 +63,7 @@ class TaskController extends Controller
 
     public function show($id)
     {
-        $task = \App\Task::whereUuid($id)->first();
+        $task = Task::whereUuid($id)->first();
 
         if (!$task) {
             return response()->json(['message' => 'Couldnot find task!'], 422);
@@ -73,7 +74,7 @@ class TaskController extends Controller
 
     public function update(Request $request, $id)
     {
-        $task = \App\Task::whereUuid($id)->first();
+        $task = Task::whereUuid($id)->first();
 
         if (!$task) {
             return response()->json(['message' => 'Couldnot find task!']);
@@ -102,7 +103,7 @@ class TaskController extends Controller
 
     public function toggleStatus(Request $request)
     {
-        $task = \App\Task::find($request->input('id'));
+        $task = Task::find($request->input('id'));
 
         if (!$task) {
             return response()->json(['message' => 'Couldnot find task!'], 422);

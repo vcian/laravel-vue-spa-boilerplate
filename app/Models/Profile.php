@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Eloquent;
+use App\Models\User;
 
 class Profile extends Eloquent
 {
@@ -22,6 +23,6 @@ class Profile extends Eloquent
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::Class);
     }
 }
