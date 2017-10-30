@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Validator;
 
 class TaskController extends Controller
 {

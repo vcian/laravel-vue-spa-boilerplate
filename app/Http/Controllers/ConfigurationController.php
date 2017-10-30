@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Configuration;
+use Illuminate\Http\Request;
 
 class ConfigurationController extends Controller
 {
