@@ -46,7 +46,7 @@
         },
         methods: {
             submit(e){
-                axios.post('/api/auth/password', this.passwordForm).then(response =>  {
+                axios.post('/api/v1/auth/password', this.passwordForm).then(response =>  {
                     toastr['success'](response.data.message);
                     this.$router.push('/login');
                 }).catch(error => {

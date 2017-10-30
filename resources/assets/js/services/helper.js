@@ -1,6 +1,6 @@
 export default {
     logout(){
-        return axios.post('/api/auth/logout').then(response =>  {
+        return axios.post('/api/v1/auth/logout').then(response =>  {
             localStorage.removeItem('auth_token');
             axios.defaults.headers.common['Authorization'] = null;
             toastr['success'](response.data.message);
@@ -10,7 +10,7 @@ export default {
     },
 
     authUser(){
-        return axios.get('/api/auth/user').then(response =>  {
+        return axios.get('/api/v1/auth/user').then(response =>  {
             return response.data;
         }).catch(error => {
             return error.response.data;
@@ -18,7 +18,7 @@ export default {
     },
 
     check(){
-        return axios.post('/api/auth/check').then(response =>  {
+        return axios.post('/api/v1/auth/check').then(response =>  {
             return !!response.data.authenticated;
         }).catch(error =>{
             return response.data.authenticated;

@@ -72,7 +72,7 @@
                     this.storeTask();
             },
             storeTask(){
-                this.taskForm.post('/api/task')
+                this.taskForm.post('/api/v1/task')
                 .then(response => {
                     toastr['success'](response.message);
                     this.$emit('completed',response.task)
@@ -82,7 +82,7 @@
                 });
             },
             getTasks(){
-                axios.get('/api/task/'+this.id)
+                axios.get('/api/v1/task/'+this.id)
                 .then(response => {
                     this.taskForm.title = response.data.title;
                     this.taskForm.description = response.data.description;
@@ -95,7 +95,7 @@
                 });
             },
             updateTask(){
-                this.taskForm.patch('/api/task/'+this.id)
+                this.taskForm.patch('/api/v1/task/'+this.id)
                 .then(response => {
                     if(response.type == 'error')
                         toastr['error'](response.message);

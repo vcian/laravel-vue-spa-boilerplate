@@ -489,7 +489,7 @@ module.exports = {
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
     logout: function logout() {
-        return axios.post('/api/auth/logout').then(function (response) {
+        return axios.post('/api/v1/auth/logout').then(function (response) {
             localStorage.removeItem('auth_token');
             axios.defaults.headers.common['Authorization'] = null;
             toastr['success'](response.data.message);
@@ -498,14 +498,14 @@ module.exports = {
         });
     },
     authUser: function authUser() {
-        return axios.get('/api/auth/user').then(function (response) {
+        return axios.get('/api/v1/auth/user').then(function (response) {
             return response.data;
         }).catch(function (error) {
             return error.response.data;
         });
     },
     check: function check() {
-        return axios.post('/api/auth/check').then(function (response) {
+        return axios.post('/api/v1/auth/check').then(function (response) {
             return !!response.data.authenticated;
         }).catch(function (error) {
             return response.data.authenticated;
@@ -19430,7 +19430,7 @@ module.exports.default = axios;
 /*!
  * Determine if an object is a Buffer
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
 
@@ -24218,7 +24218,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * JavaScript Cookie v2.1.4
+ * JavaScript Cookie v2.2.0
  * https://github.com/js-cookie/js-cookie
  *
  * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
@@ -24332,7 +24332,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 				var parts = cookies[i].split('=');
 				var cookie = parts.slice(1).join('=');
 
-				if (cookie.charAt(0) === '"') {
+				if (!this.json && cookie.charAt(0) === '"') {
 					cookie = cookie.slice(1, -1);
 				}
 
@@ -25772,7 +25772,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('/api/user/dashboard').then(function (response) {
+        axios.get('/api/v1/user/dashboard').then(function (response) {
             _this.users_count = response.data.users_count;
             _this.tasks_count = response.data.tasks_count;
             _this.recent_incomplete_tasks = response.data.recent_incomplete_tasks;
@@ -25784,14 +25784,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getTodos: function getTodos() {
             var _this2 = this;
 
-            axios.get('/api/todo?show_todo_status=' + this.show_todo_status).then(function (response) {
+            axios.get('/api/v1/todo?show_todo_status=' + this.show_todo_status).then(function (response) {
                 _this2.todos = response.data;
             });
         },
         storeTodo: function storeTodo() {
             var _this3 = this;
 
-            this.todoForm.post('/api/todo').then(function (response) {
+            this.todoForm.post('/api/v1/todo').then(function (response) {
                 toastr['success'](response.message);
                 _this3.todos.unshift(response.data);
             }).catch(function (response) {
@@ -25801,7 +25801,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteTodo: function deleteTodo(todo) {
             var _this4 = this;
 
-            axios.delete('/api/todo/' + todo.id).then(function (response) {
+            axios.delete('/api/v1/todo/' + todo.id).then(function (response) {
                 toastr['success'](response.data.message);
                 _this4.getTodos();
             }).catch(function (error) {
@@ -25809,7 +25809,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         toggleTodoStatus: function toggleTodoStatus(todo) {
-            axios.post('/api/todo/status', { id: todo.id }).then(function (response) {
+            axios.post('/api/v1/todo/status', { id: todo.id }).then(function (response) {
                 todo.status = !todo.status;
             }).catch(function (error) {
                 toastr['error'](error.response.message);
@@ -26479,7 +26479,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('/api/configuration/fetch').then(function (response) {
+        axios.get('/api/v1/configuration/fetch').then(function (response) {
             _this.configForm = __WEBPACK_IMPORTED_MODULE_0__services_helper__["a" /* default */].formAssign(_this.configForm, response.data.config);
         }).catch();
     },
@@ -26489,7 +26489,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         saveConfiguration: function saveConfiguration() {
             var _this2 = this;
 
-            this.configForm.post('/api/configuration').then(function (response) {
+            this.configForm.post('/api/v1/configuration').then(function (response) {
                 _this2.$store.dispatch('setConfig', _this2.configForm);
                 toastr['success'](response.message);
             }).catch(function (response) {
@@ -26828,7 +26828,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('/api/auth/user').then(function (response) {
+        axios.get('/api/v1/auth/user').then(function (response) {
             return response.data;
         }).then(function (response) {
             _this.profileForm.first_name = response.profile.first_name;
@@ -26844,7 +26844,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         changePassword: function changePassword() {
-            this.passwordForm.post('/api/user/change-password').then(function (response) {
+            this.passwordForm.post('/api/v1/user/change-password').then(function (response) {
                 toastr['success'](response.message);
             }).catch(function (response) {
                 toastr['error'](response.message);
@@ -26854,7 +26854,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.profileForm.date_of_birth = moment(this.profileForm.date_of_birth).format('YYYY-MM-DD');
-            this.profileForm.post('/api/user/update-profile').then(function (response) {
+            this.profileForm.post('/api/v1/user/update-profile').then(function (response) {
                 toastr['success'](response.message);
                 _this2.$store.dispatch('setAuthUserDetail', {
                     first_name: _this2.profileForm.first_name,
@@ -26886,7 +26886,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var data = new FormData();
             data.append('avatar', $('#avatarUpload')[0].files[0]);
-            axios.post('/api/user/update-avatar', data).then(function (response) {
+            axios.post('/api/v1/user/update-avatar', data).then(function (response) {
                 _this4.$store.dispatch('setAuthUserDetail', {
                     avatar: response.data.profile.avatar
                 });
@@ -26900,7 +26900,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         removeAvatar: function removeAvatar() {
             var _this5 = this;
 
-            axios.post('/api/user/remove-avatar').then(function (response) {
+            axios.post('/api/v1/user/remove-avatar').then(function (response) {
                 _this5.$store.dispatch('setAuthUserDetail', {
                     avatar: null
                 });
@@ -27684,7 +27684,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 page = 1;
             }
             var url = __WEBPACK_IMPORTED_MODULE_2__services_helper__["a" /* default */].getFilterURL(this.filterTaskForm);
-            axios.get('/api/task?page=' + page + url).then(function (response) {
+            axios.get('/api/v1/task?page=' + page + url).then(function (response) {
                 return _this.tasks = response.data;
             });
         },
@@ -27697,7 +27697,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteTask: function deleteTask(task) {
             var _this2 = this;
 
-            axios.delete('/api/task/' + task.id).then(function (response) {
+            axios.delete('/api/v1/task/' + task.id).then(function (response) {
                 toastr['success'](response.data.message);
                 _this2.getTasks();
             }).catch(function (error) {
@@ -27713,7 +27713,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         toggleTaskStatus: function toggleTaskStatus(task) {
             var _this3 = this;
 
-            axios.post('/api/task/status', { id: task.id }).then(function (response) {
+            axios.post('/api/v1/task/status', { id: task.id }).then(function (response) {
                 _this3.getTasks();
             });
         }
@@ -27852,7 +27852,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         storeTask: function storeTask() {
             var _this = this;
 
-            this.taskForm.post('/api/task').then(function (response) {
+            this.taskForm.post('/api/v1/task').then(function (response) {
                 toastr['success'](response.message);
                 _this.$emit('completed', response.task);
             }).catch(function (response) {
@@ -27862,7 +27862,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getTasks: function getTasks() {
             var _this2 = this;
 
-            axios.get('/api/task/' + this.id).then(function (response) {
+            axios.get('/api/v1/task/' + this.id).then(function (response) {
                 _this2.taskForm.title = response.data.title;
                 _this2.taskForm.description = response.data.description;
                 _this2.taskForm.start_date = response.data.start_date;
@@ -27875,7 +27875,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         updateTask: function updateTask() {
             var _this3 = this;
 
-            this.taskForm.patch('/api/task/' + this.id).then(function (response) {
+            this.taskForm.patch('/api/v1/task/' + this.id).then(function (response) {
                 if (response.type == 'error') toastr['error'](response.message);else {
                     _this3.$router.push('/task');
                 }
@@ -29735,14 +29735,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 page = 1;
             }
             var url = __WEBPACK_IMPORTED_MODULE_1__services_helper__["a" /* default */].getFilterURL(this.filterUserForm);
-            axios.get('/api/user?page=' + page + url).then(function (response) {
+            axios.get('/api/v1/user?page=' + page + url).then(function (response) {
                 return _this.users = response.data;
             });
         },
         deleteUser: function deleteUser(user) {
             var _this2 = this;
 
-            axios.delete('/api/user/' + user.id).then(function (response) {
+            axios.delete('/api/v1/user/' + user.id).then(function (response) {
                 toastr['success'](response.data.message);
                 _this2.getUsers();
             }).catch(function (error) {
@@ -30506,7 +30506,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submit: function submit(e) {
             var _this = this;
 
-            axios.post('/api/auth/login', this.loginForm).then(function (response) {
+            axios.post('/api/v1/auth/login', this.loginForm).then(function (response) {
                 localStorage.setItem('auth_token', response.data.token);
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('auth_token');
                 toastr['success'](response.data.message);
@@ -30933,7 +30933,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submit: function submit(e) {
             var _this = this;
 
-            axios.post('/api/auth/password', this.passwordForm).then(function (response) {
+            axios.post('/api/v1/auth/password', this.passwordForm).then(function (response) {
                 toastr['success'](response.data.message);
                 _this.$router.push('/login');
             }).catch(function (error) {
@@ -31208,7 +31208,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submit: function submit(e) {
             var _this = this;
 
-            axios.post('/api/auth/register', this.registerForm).then(function (response) {
+            axios.post('/api/v1/auth/register', this.registerForm).then(function (response) {
                 toastr['success'](response.data.message);
                 _this.$router.push('/login');
             }).catch(function (error) {
@@ -31588,7 +31588,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        axios.get('/api/auth/activate/' + this.token).then(function (response) {
+        axios.get('/api/v1/auth/activate/' + this.token).then(function (response) {
             _this.message = response.data.message;
         }).catch(function (error) {
             _this.message = error.response.data.message;
@@ -31797,7 +31797,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        axios.post('/api/auth/validate-password-reset', {
+        axios.post('/api/v1/auth/validate-password-reset', {
             token: this.reset.token
         }).then(function (response) {
             _this.showMessage = false;
@@ -31812,7 +31812,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submit: function submit(e) {
             var _this2 = this;
 
-            axios.post('/api/auth/reset', this.resetForm).then(function (response) {
+            axios.post('/api/v1/auth/reset', this.resetForm).then(function (response) {
                 _this2.message = response.data.message;
                 _this2.showMessage = true;
                 _this2.status = true;
@@ -32131,7 +32131,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        axios.post('/api/auth/social/token').then(function (response) {
+        axios.post('/api/v1/auth/social/token').then(function (response) {
             localStorage.setItem('auth_token', response.data.token);
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('auth_token');
             toastr['success'](response.data.message);

@@ -131,7 +131,7 @@
         },
         components : { ClickConfirm },
         mounted() {
-            axios.get('/api/user/dashboard').then(response =>  {
+            axios.get('/api/v1/user/dashboard').then(response =>  {
                 this.users_count = response.data.users_count;
                 this.tasks_count = response.data.tasks_count;
                 this.recent_incomplete_tasks = response.data.recent_incomplete_tasks;
@@ -140,12 +140,12 @@
         },
         methods: {
             getTodos(){
-                axios.get('/api/todo?show_todo_status='+this.show_todo_status).then(response =>  {
+                axios.get('/api/v1/todo?show_todo_status='+this.show_todo_status).then(response =>  {
                     this.todos = response.data;
                 });
             },
             storeTodo(){
-                this.todoForm.post('/api/todo').then(response => {
+                this.todoForm.post('/api/v1/todo').then(response => {
                     toastr['success'](response.message);
                     this.todos.unshift(response.data)
                 }).catch(response => {
@@ -153,7 +153,7 @@
                 });
             },
             deleteTodo(todo){
-                axios.delete('/api/todo/'+todo.id).then(response => {
+                axios.delete('/api/v1/todo/'+todo.id).then(response => {
                     toastr['success'](response.data.message);
                     this.getTodos();
                 }).catch(error => {
@@ -161,7 +161,7 @@
                 });
             },
             toggleTodoStatus(todo){
-                axios.post('/api/todo/status',{id:todo.id}).then(response => {
+                axios.post('/api/v1/todo/status',{id:todo.id}).then(response => {
                     todo.status = !todo.status;
                 }).catch(error => {
                     toastr['error'](error.response.message);
