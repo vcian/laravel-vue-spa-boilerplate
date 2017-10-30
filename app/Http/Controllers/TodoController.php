@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use JWTAuth;
-use Validator;
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use JWTAuth;
+use Validator;
 
 class TodoController extends Controller
 {

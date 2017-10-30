@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use JWTAuth;
-use Validator;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use JWTAuth;
+use Validator;
 
 class UserController extends Controller
 {
