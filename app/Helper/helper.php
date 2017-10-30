@@ -1,8 +1,10 @@
 <?php
 
+use App\Helper\uuid;
+
 function generateUuid()
 {
-    return \App\Helper\UUID::uuid4();
+    return uuid::uuid4();
 }
 
 /**

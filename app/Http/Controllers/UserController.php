@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use JWTAuth;
@@ -18,7 +20,7 @@ class UserController extends Controller
     {
         dd();
         try {
-            $users = \App\User::with('profile');
+            $users = User::with('profile');
 
             if (request()->has('first_name')) {
                 $query->whereHas('profile', function ($q) use ($request) {
@@ -180,7 +182,7 @@ class UserController extends Controller
                 return response()->json(['message' => 'You are not allowed to perform this action in this mode.'], 422);
             }
 
-            $user = \App\User::find($id);
+            $user = User::find($id);
 
             if (!$user) {
                 return response()->json(['message' => 'Couldnot find user!'], 422);
@@ -206,9 +208,9 @@ class UserController extends Controller
     public function dashboard()
     {
         try {
-            $users_count = \App\User::count();
-            $tasks_count = \App\Task::count();
-            $recent_incomplete_tasks = \App\Task::whereStatus(0)->orderBy('due_date', 'desc')->limit(5)->get();
+            $users_count = User::count();
+            $tasks_count = Task::count();
+            $recent_incomplete_tasks = Task::whereStatus(0)->orderBy('due_date', 'desc')->limit(5)->get();
 
             return response()->json(compact('users_count', 'tasks_count', 'recent_incomplete_tasks'));
         } catch (\Exception $ex) {
