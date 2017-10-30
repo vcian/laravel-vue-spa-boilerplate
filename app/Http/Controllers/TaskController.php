@@ -124,7 +124,7 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         try {
-             $task = Task::whereUuid($id)->first();
+            $task = Task::whereUuid($id)->first();
 
             if (!$task) {
                 return response()->json(['message' => 'Couldnot find task!']);
