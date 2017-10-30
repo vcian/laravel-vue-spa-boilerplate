@@ -10,6 +10,11 @@ use Socialite;
 
 class SocialAuthController extends Controller
 {
+    /**
+     * @param string $provider
+     *
+     * @return $this
+     */
     public function providerRedirect($provider = '')
     {
         if (!in_array($provider, ['facebook', 'twitter', 'github'])) {
@@ -19,6 +24,11 @@ class SocialAuthController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
+    /**
+     * @param string $provider
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function providerRedirectCallback($provider = '')
     {
         try {
@@ -53,6 +63,9 @@ class SocialAuthController extends Controller
         return redirect('/auth/social');
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getToken()
     {
         if (!\Cache::has('jwt_token')) {

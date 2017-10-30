@@ -94,7 +94,7 @@ CREATE TABLE `profiles` (
 --
 
 INSERT INTO `profiles` (`id`, `user_id`, `first_name`, `last_name`, `gender`, `date_of_birth`, `avatar`, `facebook_profile`, `twitter_profile`, `google_plus_profile`, `created_at`, `updated_at`) VALUES
-(1, 1, 'viral', 'solani', NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-25 02:09:47', '2017-10-25 02:09:47');
+(1, 1, 'john', 'doe', NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-25 02:09:47', '2017-10-25 02:09:47');
 
 -- --------------------------------------------------------
 
