@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-             $users = User::with('profile');
+            $users = User::with('profile');
 
             if (request()->has('first_name')) {
                 $query->whereHas('profile', function ($q) use ($request) {
@@ -180,7 +180,7 @@ class UserController extends Controller
             if (env('IS_DEMO')) {
                 return response()->json(['message' => 'You are not allowed to perform this action in this mode.'], 422);
             }
-          
+
             $user = User::find($id);
 
             if (!$user) {
@@ -214,6 +214,7 @@ class UserController extends Controller
             return response()->json(compact('users_count', 'tasks_count', 'recent_incomplete_tasks'));
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
+
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }

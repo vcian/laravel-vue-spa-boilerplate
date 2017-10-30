@@ -49,13 +49,13 @@ class TodoController extends Controller
                 return response()->json(['message' => $validation->messages()->first()], 422);
             }
 
-             $user = \JWTAuth::parseToken()->authenticate();
-             $todo = new Todo();
-             $todo->fill(request()->all());
-             $todo->user_id = $user->id;
-             $todo->save();
+            $user = \JWTAuth::parseToken()->authenticate();
+            $todo = new Todo();
+            $todo->fill(request()->all());
+            $todo->user_id = $user->id;
+            $todo->save();
 
-             return response()->json(['message' => 'Todo added!', 'data' => $todo]);
+            return response()->json(['message' => 'Todo added!', 'data' => $todo]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
 
