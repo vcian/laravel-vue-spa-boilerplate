@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Socialite;
 
 class SocialAuthController extends Controller
 {
+    /**
+     * @param string $provider
+     *
+     * @return $this
+     */
     public function providerRedirect($provider = '')
     {
         if (!in_array($provider, ['facebook', 'twitter', 'github'])) {
@@ -17,6 +24,11 @@ class SocialAuthController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
+    /**
+     * @param string $provider
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function providerRedirectCallback($provider = '')
     {
         try {
@@ -25,12 +37,12 @@ class SocialAuthController extends Controller
             return redirect('/auth/social');
         }
 
-        $user_exists = \App\User::whereEmail($user->email)->first();
+        $user_exists = User::whereEmail($user->email)->first();
 
         if ($user_exists) {
             $token = JWTAuth::fromUser($user_exists);
         } else {
-            $new_user = new \App\User();
+            $new_user = new User();
             $new_user->email = $user->email;
             $new_user->provider = $provider;
             $new_user->provider_unique_id = $user->id;
@@ -38,7 +50,7 @@ class SocialAuthController extends Controller
             $new_user->activation_token = generateUuid();
             $new_user->save();
             $name = explode(' ', $user->name);
-            $profile = new \App\Profile();
+            $profile = new Profile();
             $profile->user()->associate($new_user);
             $profile->first_name = array_key_exists(0, $name) ? $name[0] : 'John';
             $profile->last_name = array_key_exists(1, $name) ? $name[1] : 'Doe';
@@ -51,6 +63,9 @@ class SocialAuthController extends Controller
         return redirect('/auth/social');
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getToken()
     {
         if (!\Cache::has('jwt_token')) {
