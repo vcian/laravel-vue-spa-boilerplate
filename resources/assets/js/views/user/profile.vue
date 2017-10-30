@@ -134,7 +134,7 @@
             };
         },
         mounted(){
-            axios.get('/api/auth/user').then(response => response.data).then(response => {
+            axios.get('/api/v1/auth/user').then(response => response.data).then(response => {
                 this.profileForm.first_name = response.profile.first_name;
                 this.profileForm.last_name = response.profile.last_name;
                 this.profileForm.date_of_birth = response.profile.date_of_birth;
@@ -147,7 +147,7 @@
         },
         methods: {
             changePassword() {
-                this.passwordForm.post('/api/user/change-password').then(response => {
+                this.passwordForm.post('/api/v1/user/change-password').then(response => {
                     toastr['success'](response.message);
                 }).catch(response => {
                     toastr['error'](response.message);
@@ -155,7 +155,7 @@
             },
             updateProfile() {
                 this.profileForm.date_of_birth = moment(this.profileForm.date_of_birth).format('YYYY-MM-DD');
-                this.profileForm.post('/api/user/update-profile').then(response => {
+                this.profileForm.post('/api/v1/user/update-profile').then(response => {
                     toastr['success'](response.message);
                     this.$store.dispatch('setAuthUserDetail',{
                         first_name: this.profileForm.first_name,
@@ -184,7 +184,7 @@
             uploadAvatar() {
                 let data = new FormData();
                 data.append('avatar', $('#avatarUpload')[0].files[0]);
-                axios.post('/api/user/update-avatar',data)
+                axios.post('/api/v1/user/update-avatar',data)
                 .then(response => {
                     this.$store.dispatch('setAuthUserDetail',{
                         avatar: response.data.profile.avatar
@@ -197,7 +197,7 @@
                 });
             },
             removeAvatar() {
-                axios.post('/api/user/remove-avatar')
+                axios.post('/api/v1/user/remove-avatar')
                 .then(response => {
                     this.$store.dispatch('setAuthUserDetail',{
                         avatar: null

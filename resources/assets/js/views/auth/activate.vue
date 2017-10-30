@@ -1,6 +1,6 @@
 <template>
     <section id="wrapper">
-        <div class="login-register" style="background-image:url(/images/background/background.jpg);">        
+        <div class="login-register" style="background-image:url(/images/background/background.jpg);">
             <div class="login-box card">
             <div class="card-body">
                 <h3 class="box-title m-b-20 text-center">Account Activation</h3>
@@ -16,13 +16,13 @@
             <guest-footer></guest-footer>
           </div>
         </div>
-        
+
     </section>
 </template>
 
 <script>
     import GuestFooter from '../../layouts/guest-footer.vue'
-    
+
     export default {
         data() {
             return {
@@ -35,7 +35,7 @@
             GuestFooter
         },
         mounted(){
-            axios.get('/api/auth/activate/'+this.token).then(response =>  {
+            axios.get('/api/v1/auth/activate/'+this.token).then(response =>  {
                 this.message = response.data.message;
             }).catch(error => {
                 this.message = error.response.data.message;
