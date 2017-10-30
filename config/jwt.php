@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 /*
  * This file is part of jwt-auth.
  *
@@ -71,7 +73,7 @@ return [
     |
     */
 
-    'user' => 'App\User',
+    'user' => User::class,
 
     /*
     |--------------------------------------------------------------------------
