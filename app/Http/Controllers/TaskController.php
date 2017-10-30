@@ -7,7 +7,6 @@ use Validator;
 
 class TaskController extends Controller
 {
-
     /**
      * @return \Illuminate\Http\JsonResponse
      */
@@ -16,40 +15,45 @@ class TaskController extends Controller
         try {
             $tasks = \App\Task::whereNotNull('id');
 
-            if(request()->has('title'))
-                $tasks->where('title','like','%'.request('title').'%');
+            if (request()->has('title')) {
+                $tasks->where('title', 'like', '%'.request('title').'%');
+            }
 
-            if(request()->has('status'))
+            if (request()->has('status')) {
                 $tasks->whereStatus(request('status'));
+            }
 
-            $tasks->orderBy(request('sortBy'),request('order'));
+            $tasks->orderBy(request('sortBy'), request('order'));
 
             return $tasks->paginate(request('pageLength'));
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-            return response()->json(['message' => 'Sorry, something went wrong!'],422);
+
+            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         try {
             $validation = Validator::make($request->all(), [
-                'title' => 'required|unique:tasks',
+                'title'       => 'required|unique:tasks',
                 'description' => 'required',
-                'start_date' => 'required|date_format:Y-m-d',
-                'due_date' => 'required|date_format:Y-m-d|after:start_date'
+                'start_date'  => 'required|date_format:Y-m-d',
+                'due_date'    => 'required|date_format:Y-m-d|after:start_date',
             ]);
 
-            if($validation->fails())
-                return response()->json(['message' => $validation->messages()->first()],422);
+            if ($validation->fails()) {
+                return response()->json(['message' => $validation->messages()->first()], 422);
+            }
 
             $user = \JWTAuth::parseToken()->authenticate();
-            $task = new \App\Task;
+            $task = new \App\Task();
             $task->fill(request()->all());
             $task->uuid = generateUuid();
             $task->user_id = $user->id;
@@ -58,14 +62,15 @@ class TaskController extends Controller
             return response()->json(['message' => 'Task added!', 'data' => $task]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-            return response()->json(['message' => 'Sorry, something went wrong!'],422);
-        }
 
+            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
+        }
     }
 
     /**
      * @param Request $request
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request, $id)
@@ -73,20 +78,23 @@ class TaskController extends Controller
         try {
             $task = \App\Task::find($id);
 
-            if(!$task)
-                return response()->json(['message' => 'Couldnot find task!'],422);
+            if (!$task) {
+                return response()->json(['message' => 'Couldnot find task!'], 422);
+            }
 
             $task->delete();
 
             return response()->json(['message' => 'Task deleted!']);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-            return response()->json(['message' => 'Sorry, something went wrong!'],422);
+
+            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
 
     /**
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
@@ -94,19 +102,22 @@ class TaskController extends Controller
         try {
             $task = \App\Task::whereUuid($id)->first();
 
-            if(!$task)
-                return response()->json(['message' => 'Couldnot find task!'],422);
+            if (!$task) {
+                return response()->json(['message' => 'Couldnot find task!'], 422);
+            }
 
             return $task;
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-            return response()->json(['message' => 'Sorry, something went wrong!'],422);
+
+            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
 
     /**
      * @param Request $request
      * @param $id
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
@@ -114,18 +125,20 @@ class TaskController extends Controller
         try {
             $task = \App\Task::whereUuid($id)->first();
 
-            if(!$task)
+            if (!$task) {
                 return response()->json(['message' => 'Couldnot find task!']);
+            }
 
             $validation = Validator::make($request->all(), [
-                'title' => 'required|unique:tasks,title,'.$task->id.',id',
+                'title'       => 'required|unique:tasks,title,'.$task->id.',id',
                 'description' => 'required',
-                'start_date' => 'required|date_format:Y-m-d',
-                'due_date' => 'required|date_format:Y-m-d|after:start_date'
+                'start_date'  => 'required|date_format:Y-m-d',
+                'due_date'    => 'required|date_format:Y-m-d|after:start_date',
             ]);
 
-            if($validation->fails())
-                return response()->json(['message' => $validation->messages()->first()],422);
+            if ($validation->fails()) {
+                return response()->json(['message' => $validation->messages()->first()], 422);
+            }
 
             $task->title = request('title');
             $task->description = request('description');
@@ -137,12 +150,14 @@ class TaskController extends Controller
             return response()->json(['message' => 'Task updated!', 'data' => $task]);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-            return response()->json(['message' => 'Sorry, something went wrong!'],422);
+
+            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function toggleStatus(Request $request)
@@ -150,8 +165,9 @@ class TaskController extends Controller
         try {
             $task = \App\Task::find($request->input('id'));
 
-            if(!$task)
-                return response()->json(['message' => 'Couldnot find task!'],422);
+            if (!$task) {
+                return response()->json(['message' => 'Couldnot find task!'], 422);
+            }
 
             $task->status = !$task->status;
             $task->save();
@@ -159,7 +175,8 @@ class TaskController extends Controller
             return response()->json(['message' => 'Task updated!']);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-            return response()->json(['message' => 'Sorry, something went wrong!'],422);
+
+            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
 }
