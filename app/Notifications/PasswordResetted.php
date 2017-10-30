@@ -3,9 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class PasswordResetted extends Notification
 {
@@ -16,7 +15,6 @@ class PasswordResetted extends Notification
      *
      * @return void
      */
-
     protected $user;
 
     public function __construct($user)
@@ -27,7 +25,8 @@ class PasswordResetted extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -38,14 +37,15 @@ class PasswordResetted extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         $url = url('/');
 
-        return (new MailMessage)
+        return (new MailMessage())
                     ->greeting('Hello!')
                     ->line('Your password has been reset successfully!')
                     ->line('Click on the below link to continue login.')
@@ -57,7 +57,8 @@ class PasswordResetted extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
