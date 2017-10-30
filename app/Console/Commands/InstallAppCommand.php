@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use File;
 use DB;
+use File;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
@@ -37,6 +37,7 @@ class InstallAppCommand extends Command
      * Create a new command instance.
      *
      * @param Filesystem $files
+     *
      * @internal param Filesystem $filesystem
      */
     public function __construct(Filesystem $files)
@@ -60,7 +61,7 @@ class InstallAppCommand extends Command
         $extensions = get_loaded_extensions();
         $require_extensions = ['mbstring', 'openssl', 'curl', 'exif', 'fileinfo', 'tokenizer'];
         foreach (array_diff($require_extensions, $extensions) as $missing_extension) {
-            $this->error('Missing ' . ucfirst($missing_extension) . ' extension');
+            $this->error('Missing '.ucfirst($missing_extension).' extension');
         }
 
         if (!file_exists('.env')) {
@@ -74,13 +75,15 @@ class InstallAppCommand extends Command
         //Key Generate
         Artisan::call('key:generate');
         $this->line('Key generated in .env file!');
-
     }
 
     /**
-     * Set Database info in .env file
+     * Set Database info in .env file.
+     *
      * @throws Exception
+     *
      * @return void
+     *
      * @author Sang Nguyen
      */
     protected function setDatabaseInfo()
@@ -108,10 +111,10 @@ class InstallAppCommand extends Command
 
             // Update DB credentials in .env file.
             $contents = $this->getKeyFile();
-            $contents = preg_replace('/(' . preg_quote('DB_PORT=') . ')(.*)/', 'DB_PORT=' . $this->port, $contents);
-            $contents = preg_replace('/(' . preg_quote('DB_DATABASE=') . ')(.*)/', 'DB_DATABASE=' . $this->database, $contents);
-            $contents = preg_replace('/(' . preg_quote('DB_USERNAME=') . ')(.*)/', 'DB_USERNAME=' . $this->username, $contents);
-            $contents = preg_replace('/(' . preg_quote('DB_PASSWORD=') . ')(.*)/', 'DB_PASSWORD=' . $this->password, $contents);
+            $contents = preg_replace('/('.preg_quote('DB_PORT=').')(.*)/', 'DB_PORT='.$this->port, $contents);
+            $contents = preg_replace('/('.preg_quote('DB_DATABASE=').')(.*)/', 'DB_DATABASE='.$this->database, $contents);
+            $contents = preg_replace('/('.preg_quote('DB_USERNAME=').')(.*)/', 'DB_USERNAME='.$this->username, $contents);
+            $contents = preg_replace('/('.preg_quote('DB_PASSWORD=').')(.*)/', 'DB_PASSWORD='.$this->password, $contents);
 
             if (!$contents) {
                 throw new Exception('Error while writing credentials to .env file.');
@@ -140,19 +143,19 @@ class InstallAppCommand extends Command
                 DB::purge();
 
                 // Switch to use {$this->database}
-                DB::unprepared('USE `' . $this->database . '`');
+                DB::unprepared('USE `'.$this->database.'`');
                 DB::connection()->setDatabaseName($this->database);
 
-                $dumpDB = DB::unprepared(file_get_contents(base_path() . '/database/dump/laravel_vue_spa_boilerplate.sql'));
+                $dumpDB = DB::unprepared(file_get_contents(base_path().'/database/dump/laravel_vue_spa_boilerplate.sql'));
 
                 if ($dumpDB) {
                     $this->info('Import default database successfully!');
                 }
             }
         } else {
-            if($this->confirm('You want to migrate tables?')) {
+            if ($this->confirm('You want to migrate tables?')) {
                 // Switch to use {$this->database}
-                DB::unprepared('USE `' . $this->database . '`');
+                DB::unprepared('USE `'.$this->database.'`');
                 //DB::connection()->setDatabaseName($this->database);
                 Artisan::call('migrate');
                 $this->info('Migration successfully done!');
@@ -164,6 +167,7 @@ class InstallAppCommand extends Command
      * Guess database name from app folder.
      *
      * @return string
+     *
      * @author Sang Nguyen
      */
     protected function guessDatabaseName()
@@ -182,11 +186,11 @@ class InstallAppCommand extends Command
      * Get the key file and return its content.
      *
      * @return string
+     *
      * @author Sang Nguyen
      */
     protected function getKeyFile()
     {
         return $this->files->exists('.env') ? $this->files->get('.env') : $this->files->get('.env.example');
     }
-
 }

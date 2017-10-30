@@ -14,58 +14,66 @@
 
 namespace App\Helper;
 
-class UUID
+class uuid
 {
     /**
      * When this namespace is specified, the name string is a fully-qualified domain name.
+     *
      * @link http://tools.ietf.org/html/rfc4122#appendix-C
      */
     const NAMESPACE_DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
     /**
      * When this namespace is specified, the name string is a URL.
+     *
      * @link http://tools.ietf.org/html/rfc4122#appendix-C
      */
     const NAMESPACE_URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
     /**
      * When this namespace is specified, the name string is an ISO OID.
+     *
      * @link http://tools.ietf.org/html/rfc4122#appendix-C
      */
     const NAMESPACE_OID = '6ba7b812-9dad-11d1-80b4-00c04fd430c8';
     /**
      * When this namespace is specified, the name string is an X.500 DN in DER or a text output format.
+     *
      * @link http://tools.ietf.org/html/rfc4122#appendix-C
      */
     const NAMESPACE_X500 = '6ba7b814-9dad-11d1-80b4-00c04fd430c8';
     /**
      * The nil UUID is special form of UUID that is specified to have all 128 bits set to zero.
+     *
      * @link http://tools.ietf.org/html/rfc4122#section-4.1.7
      */
     const NIL = '00000000-0000-0000-0000-000000000000';
 
-    private static function getBytes($uuid) {
+    private static function getBytes($uuid)
+    {
         if (!self::isValid($uuid)) {
-            throw new InvalidArgumentException('Invalid UUID string: ' . $uuid);
+            throw new InvalidArgumentException('Invalid UUID string: '.$uuid);
         }
         // Get hexadecimal components of UUID
-        $uhex = str_replace(array(
+        $uhex = str_replace([
             'urn:',
             'uuid:',
             '-',
             '{',
-            '}'
-        ), '', $uuid);
+            '}',
+        ], '', $uuid);
 
         // Binary Value
         $ustr = '';
 
         // Convert UUID to bits
         for ($i = 0; $i < strlen($uhex); $i += 2) {
-            $ustr .= chr(hexdec($uhex[$i] . $uhex[$i + 1]));
+            $ustr .= chr(hexdec($uhex[$i].$uhex[$i + 1]));
         }
+
         return $ustr;
     }
 
-    private static function uuidFromHash($hash, $version) {
+    private static function uuidFromHash($hash, $version)
+    {
         return sprintf('%08s-%04s-%04x-%04x-%12s',
         // 32 bits for "time_low"
             substr($hash, 0, 8),
@@ -87,14 +95,16 @@ class UUID
      * (which is a UUID) and a name (which is a string).
      *
      * @param string $namespace The UUID namespace in which to create the named UUID
-     * @param string $name The name to create a UUID for
+     * @param string $name      The name to create a UUID for
+     *
      * @return string
      */
-    public static function uuid3($namespace, $name) {
+    public static function uuid3($namespace, $name)
+    {
         $nbytes = self::getBytes($namespace);
 
         // Calculate hash value
-        $hash = md5($nbytes . $name);
+        $hash = md5($nbytes.$name);
 
         return self::uuidFromHash($hash, 3);
     }
@@ -104,9 +114,11 @@ class UUID
      *
      * @return string
      */
-    public static function uuid4() {
+    public static function uuid4()
+    {
         $bytes = function_exists('random_bytes') ? random_bytes(16) : openssl_random_pseudo_bytes(16);
         $hash = bin2hex($bytes);
+
         return self::uuidFromHash($hash, 4);
     }
 
@@ -115,14 +127,16 @@ class UUID
      * identifier (which is a UUID) and a name (which is a string).
      *
      * @param string $namespace The UUID namespace in which to create the named UUID
-     * @param string $name The name to create a UUID for
+     * @param string $name      The name to create a UUID for
+     *
      * @return string
      */
-    public static function uuid5($namespace, $name) {
+    public static function uuid5($namespace, $name)
+    {
         $nbytes = self::getBytes($namespace);
 
         // Calculate hash value
-        $hash = sha1($nbytes . $name);
+        $hash = sha1($nbytes.$name);
 
         return self::uuidFromHash($hash, 5);
     }
@@ -131,9 +145,11 @@ class UUID
      * Check if a string is a valid UUID.
      *
      * @param string $uuid The string UUID to test
-     * @return boolean
+     *
+     * @return bool
      */
-    public static function isValid($uuid) {
+    public static function isValid($uuid)
+    {
         return preg_match('/^(urn:)?(uuid:)?(\{)?[0-9a-f]{8}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{4}\-?[0-9a-f]{12}(?(3)\}|)$/i', $uuid) === 1;
     }
 
@@ -142,9 +158,11 @@ class UUID
      *
      * @param string $uuid1 The first UUID to test
      * @param string $uuid2 The second UUID to test
-     * @return boolean
+     *
+     * @return bool
      */
-    public static function equals($uuid1, $uuid2) {
+    public static function equals($uuid1, $uuid2)
+    {
         return self::getBytes($uuid1) === self::getBytes($uuid2);
     }
 }

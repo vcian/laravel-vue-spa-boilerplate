@@ -31,14 +31,15 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
+     *
      * @return void
      */
     public function report(Exception $exception)
     {
         if ($exception instanceof Tymon\JWTAuth\Exceptions\TokenExpiredException) {
             return response()->json(['message' => 'Your session is expired. Please login again!'], $exception->getStatusCode());
-        } else if ($exception instanceof Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+        } elseif ($exception instanceof Tymon\JWTAuth\Exceptions\TokenInvalidException) {
             return response()->json(['message' => 'Invalid login token. Please login again!'], $exception->getStatusCode());
         }
 
@@ -48,8 +49,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception               $exception
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
