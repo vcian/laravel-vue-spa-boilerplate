@@ -16,6 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        dd();
         try {
             $users = \App\User::with('profile');
 
