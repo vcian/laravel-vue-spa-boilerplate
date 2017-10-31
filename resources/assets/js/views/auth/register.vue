@@ -68,7 +68,7 @@
         },
         methods: {
             submit(e){
-                axios.post('/api/auth/register', this.registerForm).then(response =>  {
+                axios.post('/api/v1/auth/register', this.registerForm).then(response =>  {
                     toastr['success'](response.data.message);
                     this.$router.push('/login');
                 }).catch(error => {

@@ -152,11 +152,11 @@
                     page = 1;
                 }
                 let url = helper.getFilterURL(this.filterUserForm);
-                axios.get('/api/user?page=' + page + url)
+                axios.get('/api/v1/user?page=' + page + url)
                     .then(response => this.users = response.data );
             },
             deleteUser(user){
-                axios.delete('/api/user/'+user.id).then(response => {
+                axios.delete('/api/v1/user/'+user.id).then(response => {
                     toastr['success'](response.data.message);
                     this.getUsers();
                 }).catch(error => {

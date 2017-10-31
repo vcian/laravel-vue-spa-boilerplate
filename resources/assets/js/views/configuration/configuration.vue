@@ -45,14 +45,14 @@
             };
         },
         mounted(){
-            axios.get('/api/configuration/fetch').then(response => {
+            axios.get('/api/v1/configuration/fetch').then(response => {
                 this.configForm = helper.formAssign(this.configForm, response.data.config);
             }).catch();
         },
         components : { },
         methods: {
             saveConfiguration(){
-                this.configForm.post('/api/configuration').then(response => {
+                this.configForm.post('/api/v1/configuration').then(response => {
                     this.$store.dispatch('setConfig',this.configForm);
                     toastr['success'](response.message);
                 }).catch(response => {

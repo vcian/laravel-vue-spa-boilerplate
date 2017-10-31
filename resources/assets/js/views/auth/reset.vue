@@ -62,7 +62,7 @@
             GuestFooter
         },
         mounted(){
-            axios.post('/api/auth/validate-password-reset',{
+            axios.post('/api/v1/auth/validate-password-reset',{
                 token: this.reset.token
             }).then(response => {
                 this.showMessage = false;
@@ -74,7 +74,7 @@
         },
         methods: {
             submit(e){
-                axios.post('/api/auth/reset', this.resetForm).then(response =>  {
+                axios.post('/api/v1/auth/reset', this.resetForm).then(response =>  {
                     this.message = response.data.message;
                     this.showMessage = true;
                     this.status = true;

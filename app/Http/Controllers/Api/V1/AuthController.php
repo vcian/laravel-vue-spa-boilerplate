@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\API\V1\APIController;
 use App\Models\Profile;
 use App\Models\User;
 use App\Notifications\Activated;
@@ -13,7 +14,10 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Validator;
 
-class AuthController extends Controller
+/**
+ * AuthController.
+ */
+class AuthController extends APIController
 {
     public function authenticate(Request $request)
     {
