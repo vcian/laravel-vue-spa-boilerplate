@@ -5,8 +5,7 @@ namespace App\Models;
 use Eloquent;
 
 /**
- * Class Configuration
- * @package App\Models
+ * Class Configuration.
  */
 class Configuration extends Eloquent
 {
@@ -23,14 +22,13 @@ class Configuration extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'name','value'
+        'name', 'value',
     ];
 
     /**
      * @var string
      */
     protected $primaryKey = 'id';
-
 
     /**
      * @var bool
