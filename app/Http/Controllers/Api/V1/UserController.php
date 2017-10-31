@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use JWTAuth;
 use Validator;
@@ -59,6 +60,7 @@ class UserController extends APIController
      */
     public function updateProfile(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validation = Validator::make($request->all(), [
                 'first_name'    => 'required|min:2',
@@ -81,10 +83,23 @@ class UserController extends APIController
             $profile->twitter_profile = request('twitter_profile');
             $profile->facebook_profile = request('facebook_profile');
             $profile->google_plus_profile = request('google_plus_profile');
-            $profile->save();
 
-            return response()->json(['message' => 'Your profile has been updated!', 'user' => $user]);
+            if ($profile->save()) {
+                DB::commit();
+                $responseArr = [
+                    'message' => 'Your profile has been updated!',
+                    'user' => $user
+                ];
+            } else {
+                DB::rollback();
+                $responseArr = [
+                    'message' => 'Something went wrong!'
+                ];
+            }
+
+            return response()->json($responseArr);
         } catch (\Exception $ex) {
+            DB::rollback();
             Log::error($ex->getMessage());
 
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
@@ -98,6 +113,7 @@ class UserController extends APIController
      */
     public function updateAvatar(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validation = Validator::make($request->all(), [
                 'avatar' => 'required|image',
@@ -123,10 +139,23 @@ class UserController extends APIController
             });
             $img->save($this->avatar_path.$filename.'.'.$extension);
             $profile->avatar = $filename.'.'.$extension;
-            $profile->save();
 
-            return response()->json(['message' => 'Avatar updated!', 'profile' => $profile]);
+            if ($profile->save()) {
+                DB::commit();
+                $responseArr = [
+                    'message' => 'Your avatar has been updated!',
+                    'profile' => $profile
+                ];
+            } else {
+                DB::rollback();
+                $responseArr = [
+                    'message' => 'Something went wrong!'
+                ];
+            }
+
+            return response()->json($responseArr);
         } catch (\Exception $ex) {
+            DB::rollback();
             Log::error($ex->getMessage());
 
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
@@ -140,6 +169,7 @@ class UserController extends APIController
      */
     public function removeAvatar(Request $request)
     {
+        DB::beginTransaction();
         try {
             $user = JWTAuth::parseToken()->authenticate();
 
@@ -153,10 +183,22 @@ class UserController extends APIController
             }
 
             $profile->avatar = null;
-            $profile->save();
 
-            return response()->json(['message' => 'Avatar removed!']);
+            if ($profile->save()) {
+                DB::commit();
+                $responseArr = [
+                    'message' => 'Avatar has been removed successfully!'
+                ];
+            } else {
+                DB::rollback();
+                $responseArr = [
+                    'message' => 'Something went wrong!'
+                ];
+            }
+
+            return response()->json($responseArr);
         } catch (\Exception $ex) {
+            DB::rollback();
             Log::error($ex->getMessage());
 
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
@@ -171,6 +213,7 @@ class UserController extends APIController
      */
     public function destroy(Request $request, $id)
     {
+        DB::beginTransaction();
         try {
             if (env('IS_DEMO')) {
                 return response()->json(['message' => 'You are not allowed to perform this action in this mode.'], 422);
@@ -186,10 +229,21 @@ class UserController extends APIController
                 \File::delete($this->avatar_path.$user->avatar);
             }
 
-            $user->delete();
+            if ($user->delete()) {
+                DB::commit();
+                $responseArr = [
+                    'message' => 'User has been deleted successfully!'
+                ];
+            } else {
+                DB::rollback();
+                $responseArr = [
+                    'message' => 'Something went wrong!'
+                ];
+            }
 
-            return response()->json(['success', 'message' => 'User deleted!']);
+            return response()->json(['success', 'message' => $responseArr]);
         } catch (\Exception $ex) {
+            DB::rollback();
             Log::error($ex->getMessage());
 
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
