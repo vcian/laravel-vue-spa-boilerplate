@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Configuration;
 use Illuminate\Http\Request;
+use App\Models\Configuration;
+use App\Http\Controllers\Controller;
 
 class ConfigurationController extends Controller
 {

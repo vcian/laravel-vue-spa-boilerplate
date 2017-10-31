@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use JWTAuth;
+use Validator;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use JWTAuth;
-use Validator;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
