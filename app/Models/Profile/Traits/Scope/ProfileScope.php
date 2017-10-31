@@ -3,9 +3,8 @@
 namespace App\Models\Profile\Traits\Scope;
 
 /**
- * Trait ProfileScope
- * @package App\Models\Profile\Traits\Scope
+ * Trait ProfileScope.
  */
-trait ProfileScope {
-
+trait ProfileScope
+{
 }

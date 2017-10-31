@@ -3,9 +3,8 @@
 namespace App\Models\Task\Traits\Scope;
 
 /**
- * Trait TaskScope
- * @package App\Models\Task\Traits\Scope
+ * Trait TaskScope.
  */
-trait TaskScope {
-
+trait TaskScope
+{
 }

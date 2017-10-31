@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Todo
- * @package App\Models
+ * Class Todo.
  */
 class Todo extends Model
 {
@@ -23,7 +22,7 @@ class Todo extends Model
      * @var array
      */
     protected $fillable = [
-              'todo'
+              'todo',
     ];
 
     /**
