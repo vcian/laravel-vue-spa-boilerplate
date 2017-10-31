@@ -5,10 +5,16 @@ namespace App\Models;
 use App\Models\User\Traits\Relationship\UserRelationship;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\User\Traits\Scope\UserScope;
 
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Authenticatable
 {
     use Notifiable,
+        UserScope,
         UserRelationship;
 
     /**
@@ -17,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'status', 'avatar', 'password',
+        'first_name', 'last_name', 'email', 'status', 'avatar', 'password'
     ];
 
     /**
@@ -26,6 +32,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
 }
