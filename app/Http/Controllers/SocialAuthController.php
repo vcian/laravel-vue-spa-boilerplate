@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\API\V1\APIController;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Socialite;
 
-/**
- * SocialAuth Controller.
- */
-class SocialAuthController extends APIController
+class SocialAuthController extends Controller
 {
     /**
      * @param string $provider
