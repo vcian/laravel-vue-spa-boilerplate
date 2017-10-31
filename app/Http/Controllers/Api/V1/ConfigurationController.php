@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-
-use Illuminate\Http\Request;
-use App\Models\Configuration;
 use App\Http\Controllers\API\V1\APIController;
+use App\Models\Configuration;
+use Illuminate\Http\Request;
 
 /**
- * ConfigurationController
+ * ConfigurationController.
  */
 class ConfigurationController extends APIController
 {

@@ -3,8 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use App\Repositories\BaseRepository;
-
 
 /**
  * Class UserRepository.
@@ -17,11 +15,10 @@ class UserRepository extends BaseRepository
     const MODEL = User::class;
 
     /**
-     * [__construct description]
+     * [__construct description].
      */
     public function __construct()
     {
-
     }
 
     public function getAllUsers($request)

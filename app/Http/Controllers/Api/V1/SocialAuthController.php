@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\API\V1\APIController;
+use App\Models\Profile;
+use App\Models\User;
+use Illuminate\Http\Request;
 use JWTAuth;
 use Socialite;
-use App\Models\User;
-use App\Models\Profile;
-use Illuminate\Http\Request;
-use App\Http\Controllers\API\V1\APIController;
 
 /**
- * SocialAuth Controller
+ * SocialAuth Controller.
  */
 class SocialAuthController extends APIController
 {

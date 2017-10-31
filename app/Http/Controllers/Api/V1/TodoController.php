@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\API\V1\APIController;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\API\V1\APIController;
 use Validator;
 
-
 /**
- * To Do Controller
+ * To Do Controller.
  */
 class TodoController extends APIController
 {
