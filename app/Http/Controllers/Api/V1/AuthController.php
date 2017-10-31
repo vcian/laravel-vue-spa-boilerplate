@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use JWTAuth;
-use Validator;
-use App\Models\User;
+
 use App\Models\Profile;
-use Illuminate\Http\Request;
+use App\Models\User;
 use App\Notifications\Activated;
 use App\Notifications\Activation;
 use App\Notifications\PasswordReset;
 use App\Notifications\PasswordResetted;
+use Illuminate\Http\Request;
+use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\API\V1\APIController;
+use Validator;
 
 /**
  * AuthController

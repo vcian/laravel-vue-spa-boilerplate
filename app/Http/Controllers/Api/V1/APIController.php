@@ -90,11 +90,11 @@ class APIController extends Controller
     public function respondWithPagination($items, $data)
     {
         $data = array_merge($data, [
-            'paginator'   => [
-                'total_count'   => $items->total(),
-                'total_pages'   => ceil($items->total() / $items->perPage()),
-                'current_page'  => $items->currentPage(),
-                'limit'         => $items->perPage(),
+            'paginator' => [
+                'total_count'  => $items->total(),
+                'total_pages'  => ceil($items->total() / $items->perPage()),
+                'current_page' => $items->currentPage(),
+                'limit'        => $items->perPage(),
              ],
         ]);
 

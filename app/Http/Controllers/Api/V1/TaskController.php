@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use Validator;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\V1\APIController;
+use Validator;
 
 /**
  * Task Controller
