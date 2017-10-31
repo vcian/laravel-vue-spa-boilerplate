@@ -19,7 +19,7 @@ class Task extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'title','description','start_date','due_date'
+        'title', 'description', 'start_date', 'due_date',
     ];
 
     /**

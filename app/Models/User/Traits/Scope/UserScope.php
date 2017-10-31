@@ -3,13 +3,13 @@
 namespace App\Models\User\Traits\Scope;
 
 /**
- * Trait UserScope
- * @package App\Models\User\Traits\Scope
+ * Trait UserScope.
  */
-trait UserScope {
-
+trait UserScope
+{
     /**
      * @param $query
+     *
      * @return mixed
      */
     public function scopeUserProfile($query)

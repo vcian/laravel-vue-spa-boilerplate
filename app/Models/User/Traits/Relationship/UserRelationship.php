@@ -5,8 +5,7 @@ namespace App\Models\User\Traits\Relationship;
 use App\Models\Profile;
 
 /**
- * Trait UserRelationship
- * @package App\Models\User\Traits\Relationship
+ * Trait UserRelationship.
  */
 trait UserRelationship
 {
