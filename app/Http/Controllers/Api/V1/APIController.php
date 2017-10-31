@@ -7,7 +7,7 @@ use Illuminate\Http\Response as IlluminateResponse;
 use Response;
 
 /**
- * Base API Controller
+ * Base API Controller.
  */
 class APIController extends Controller
 {

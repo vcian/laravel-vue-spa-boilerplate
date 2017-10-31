@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use JWTAuth;
-use Validator;
+use App\Http\Controllers\API\V1\APIController;
 use App\Models\Task;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\UserRepository;
-use App\Http\Controllers\API\V1\APIController;
+use JWTAuth;
+use Validator;
+
 /**
- * User Controller
+ * User Controller.
  */
 class UserController extends APIController
 {
     /**
-     * $avatar_path
+     * $avatar_path.
+     *
      * @var string
      */
     protected $avatar_path = 'images/users/';
 
     /**
-     * $repositery UserRepositery
+     * $repositery UserRepositery.
+     *
      * @var object
      */
     protected $repositery;
@@ -42,7 +45,6 @@ class UserController extends APIController
     {
         try {
             return $this->repositery->getAllUsers($request);
-
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
+use App\Models\User;
+use Illuminate\Http\Request;
 use JWTAuth;
 use Socialite;
-use App\Models\User;
-use App\Models\Profile;
-use Illuminate\Http\Request;
 
 class SocialAuthController extends Controller
 {
