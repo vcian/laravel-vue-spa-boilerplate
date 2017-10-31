@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Profile\Traits\Relationship\ProfileRelationship;
 use Eloquent;
 
 class Profile extends Eloquent
 {
+    use ProfileRelationship;
+
     protected $fillable = [
                             'user_id',
                             'first_name',
@@ -19,9 +22,4 @@ class Profile extends Eloquent
                         ];
     protected $primaryKey = 'id';
     protected $table = 'profiles';
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
