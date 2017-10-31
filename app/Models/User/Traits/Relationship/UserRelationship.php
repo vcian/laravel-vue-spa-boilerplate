@@ -8,8 +8,8 @@ use App\Models\Profile;
  * Trait UserRelationship
  * @package App\Models\User\Traits\Relationship
  */
-trait UserRelationship {
-
+trait UserRelationship
+{
     /**
      * One-to-One relationship with profile.
      *

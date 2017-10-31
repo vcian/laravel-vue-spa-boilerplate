@@ -40,6 +40,7 @@ class UserController extends APIController
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
