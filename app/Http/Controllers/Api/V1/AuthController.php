@@ -9,12 +9,15 @@ use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Notifications\Activated;
 use App\Notifications\Activation;
-use App\Http\Controllers\Controller;
 use App\Notifications\PasswordReset;
 use App\Notifications\PasswordResetted;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Controllers\API\V1\APIController;
 
-class AuthController extends Controller
+/**
+ * AuthController
+ */
+class AuthController extends APIController
 {
     public function authenticate(Request $request)
     {

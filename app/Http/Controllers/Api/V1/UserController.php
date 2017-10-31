@@ -8,49 +8,41 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-
-class UserController extends Controller
+use App\Repositories\UserRepository;
+use App\Http\Controllers\API\V1\APIController;
+/**
+ * User Controller
+ */
+class UserController extends APIController
 {
+    /**
+     * $avatar_path
+     * @var string
+     */
     protected $avatar_path = 'images/users/';
+
+    /**
+     * $repositery UserRepositery
+     * @var object
+     */
+    protected $repositery;
+
+    /**
+     * @param UserRepository $repositery
+     */
+    public function __construct(UserRepository $repositery)
+    {
+        $this->repositery = $repositery;
+    }
 
     /**
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $users = User::with('profile');
+            return $this->repositery->getAllUsers($request);
 
-            if (request()->has('first_name')) {
-                $query->whereHas('profile', function ($q) use ($request) {
-                    $q->where('first_name', 'like', '%'.request('first_name').'%');
-                });
-            }
-
-            if (request()->has('last_name')) {
-                $query->whereHas('profile', function ($q) use ($request) {
-                    $q->where('last_name', 'like', '%'.request('last_name').'%');
-                });
-            }
-
-            if (request()->has('email')) {
-                $users->where('email', 'like', '%'.request('email').'%');
-            }
-
-            if (request()->has('status')) {
-                $users->whereStatus(request('status'));
-            }
-
-            if (request('sortBy') == 'first_name' || request('sortBy') == 'last_name') {
-                $users->with(['profile' => function ($q) {
-                    $q->orderBy(request('sortBy'), request('order'));
-                }]);
-            } else {
-                $users->orderBy(request('sortBy'), request('order'));
-            }
-
-            return $users->paginate(request('pageLength'));
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
 

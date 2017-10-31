@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\Configuration;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\V1\APIController;
 
-class ConfigurationController extends Controller
+/**
+ * ConfigurationController
+ */
+class ConfigurationController extends APIController
 {
     /**
      * @return \Illuminate\Http\JsonResponse

@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use Validator;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\V1\APIController;
 
-class TaskController extends Controller
+/**
+ * Task Controller
+ */
+class TaskController extends APIController
 {
     /**
      * @return \Illuminate\Http\JsonResponse

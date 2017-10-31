@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response as IlluminateResponse;
 use Response;
 
+/**
+ * Base API Controller
+ */
 class APIController extends Controller
 {
     /**

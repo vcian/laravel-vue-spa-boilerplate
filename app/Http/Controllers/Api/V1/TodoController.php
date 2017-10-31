@@ -7,9 +7,12 @@ use Validator;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\V1\APIController;
 
-class TodoController extends Controller
+/**
+ * To Do Controller
+ */
+class TodoController extends APIController
 {
     /**
      * @return \Illuminate\Http\JsonResponse
