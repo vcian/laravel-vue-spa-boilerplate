@@ -62,6 +62,7 @@ class UserController extends APIController
     public function updateProfile(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $validation = Validator::make($request->all(), [
                 'first_name'    => 'required|min:2',
@@ -89,12 +90,12 @@ class UserController extends APIController
                 DB::commit();
                 $responseArr = [
                     'message' => 'Your profile has been updated!',
-                    'user' => $user
+                    'user'    => $user,
                 ];
             } else {
                 DB::rollback();
                 $responseArr = [
-                    'message' => 'Something went wrong!'
+                    'message' => 'Something went wrong!',
                 ];
             }
 
@@ -115,6 +116,7 @@ class UserController extends APIController
     public function updateAvatar(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $validation = Validator::make($request->all(), [
                 'avatar' => 'required|image',
@@ -145,12 +147,12 @@ class UserController extends APIController
                 DB::commit();
                 $responseArr = [
                     'message' => 'Your avatar has been updated!',
-                    'profile' => $profile
+                    'profile' => $profile,
                 ];
             } else {
                 DB::rollback();
                 $responseArr = [
-                    'message' => 'Something went wrong!'
+                    'message' => 'Something went wrong!',
                 ];
             }
 
@@ -171,6 +173,7 @@ class UserController extends APIController
     public function removeAvatar(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $user = JWTAuth::parseToken()->authenticate();
 
@@ -188,12 +191,12 @@ class UserController extends APIController
             if ($profile->save()) {
                 DB::commit();
                 $responseArr = [
-                    'message' => 'Avatar has been removed successfully!'
+                    'message' => 'Avatar has been removed successfully!',
                 ];
             } else {
                 DB::rollback();
                 $responseArr = [
-                    'message' => 'Something went wrong!'
+                    'message' => 'Something went wrong!',
                 ];
             }
 
@@ -215,6 +218,7 @@ class UserController extends APIController
     public function destroy(Request $request, $id)
     {
         DB::beginTransaction();
+
         try {
             if (env('IS_DEMO')) {
                 return response()->json(['message' => 'You are not allowed to perform this action in this mode.'], 422);
@@ -233,12 +237,12 @@ class UserController extends APIController
             if ($user->delete()) {
                 DB::commit();
                 $responseArr = [
-                    'message' => 'User has been deleted successfully!'
+                    'message' => 'User has been deleted successfully!',
                 ];
             } else {
                 DB::rollback();
                 $responseArr = [
-                    'message' => 'Something went wrong!'
+                    'message' => 'Something went wrong!',
                 ];
             }
 
