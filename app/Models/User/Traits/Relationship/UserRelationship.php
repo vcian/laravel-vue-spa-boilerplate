@@ -4,8 +4,8 @@ namespace App\Models\User\Traits\Relationship;
 
 use App\Models\Profile;
 
-trait UserRelationship {
-
+trait UserRelationship
+{
     /**
      * One-to-One relationship with profile.
      *

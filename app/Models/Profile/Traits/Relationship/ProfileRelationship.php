@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Models\Profile\Traits\Relationship;
 
 use App\Models\User;
 
-trait ProfileRelationship {
-
+trait ProfileRelationship
+{
     /**
      * @return mixed
      */
