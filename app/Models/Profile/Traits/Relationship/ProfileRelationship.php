@@ -4,6 +4,10 @@ namespace App\Models\Profile\Traits\Relationship;
 
 use App\Models\User;
 
+/**
+ * Trait ProfileRelationship
+ * @package App\Models\Profile\Traits\Relationship
+ */
 trait ProfileRelationship
 {
     /**

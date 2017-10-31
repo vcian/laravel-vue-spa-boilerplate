@@ -23,7 +23,7 @@ class UserRepository extends BaseRepository
 
     public function getAllUsers($request)
     {
-        $users = User::with('profile');
+        $users = User::userProfile();
 
         if ($request->has('first_name')) {
             $query->whereHas('profile', function ($q) use ($request) {
