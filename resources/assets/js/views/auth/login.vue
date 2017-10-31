@@ -63,7 +63,7 @@
         },
         methods: {
             submit(e){
-                axios.post('/api/auth/login', this.loginForm).then(response =>  {
+                axios.post('/api/v1/auth/login', this.loginForm).then(response =>  {
                     localStorage.setItem('auth_token',response.data.token);
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('auth_token');
                     toastr['success'](response.data.message);

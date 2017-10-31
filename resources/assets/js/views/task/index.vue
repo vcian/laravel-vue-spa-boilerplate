@@ -161,7 +161,7 @@
                     page = 1;
                 }
                 let url = helper.getFilterURL(this.filterTaskForm);
-                axios.get('/api/task?page=' + page + url)
+                axios.get('/api/v1/task?page=' + page + url)
                     .then(response => this.tasks = response.data );
             },
             getProgress(task){
@@ -171,7 +171,7 @@
                 return helper.taskColor(task.progress);
             },
             deleteTask(task){
-                axios.delete('/api/task/'+task.id).then(response => {
+                axios.delete('/api/v1/task/'+task.id).then(response => {
                     toastr['success'](response.data.message);
                     this.getTasks();
                 }).catch(error => {
@@ -185,7 +185,7 @@
                 return (task.status) ? '<span class="label label-success">Completed</span>' : '<span class="label label-danger">Pending</span>';
             },
             toggleTaskStatus(task){
-                axios.post('/api/task/status',{id:task.id}).then((response) => {
+                axios.post('/api/v1/task/status',{id:task.id}).then((response) => {
                     this.getTasks();
                 });
             }

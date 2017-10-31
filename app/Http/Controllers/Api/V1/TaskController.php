@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\API\V1\APIController;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Validator;
 
-class TaskController extends Controller
+/**
+ * Task Controller.
+ */
+class TaskController extends APIController
 {
     /**
      * @return \Illuminate\Http\JsonResponse

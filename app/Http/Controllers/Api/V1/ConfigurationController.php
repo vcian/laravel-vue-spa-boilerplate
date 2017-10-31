@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\API\V1\APIController;
 use App\Models\Configuration;
 use Illuminate\Http\Request;
 
-class ConfigurationController extends Controller
+/**
+ * ConfigurationController.
+ */
+class ConfigurationController extends APIController
 {
     /**
      * @return \Illuminate\Http\JsonResponse
