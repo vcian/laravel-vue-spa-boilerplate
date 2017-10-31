@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\API\V1\APIController;
 use App\Models\Task;
 use App\Models\User;
 use App\Repositories\UserRepository;
@@ -39,6 +38,7 @@ class UserController extends APIController
     }
 
     /**
+     * @param Request $request
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
