@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\API\V1\APIController;
 use App\Models\Profile;
 use App\Models\User;
-use Illuminate\Http\Request;
 use JWTAuth;
 use Socialite;
 

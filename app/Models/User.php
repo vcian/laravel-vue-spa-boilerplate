@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\User\Traits\Relationship\UserRelationship;
+use App\Models\User\Traits\Scope\UserScope;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Class User.
+ */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,
+        UserScope,
+        UserRelationship;
 
     /**
      * The attributes that are mass assignable.
@@ -26,9 +33,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    public function profile()
-    {
-        return $this->hasOne(Profile::class);
-    }
 }

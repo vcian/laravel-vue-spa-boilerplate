@@ -2,26 +2,34 @@
 
 namespace App\Models;
 
+use App\Models\Profile\Traits\Relationship\ProfileRelationship;
 use Eloquent;
 
+/**
+ * Class Profile.
+ */
 class Profile extends Eloquent
 {
-    protected $fillable = [
-                            'user_id',
-                            'first_name',
-                            'last_name',
-                            'gender',
-                            'date_of_birth',
-                            'facebook_profile',
-                            'twitter_profile',
-                            'google_plus_profile',
-                            'avatar',
-                        ];
-    protected $primaryKey = 'id';
+    use ProfileRelationship;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
     protected $table = 'profiles';
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'first_name', 'last_name', 'gender', 'date_of_birth', 'facebook_profile', 'twitter_profile', 'google_plus_profile', 'avatar',
+    ];
+
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'id';
 }

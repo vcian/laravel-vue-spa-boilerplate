@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\API\V1\APIController;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use JWTAuth;
 use Validator;
 
 /**
@@ -57,7 +57,7 @@ class TaskController extends APIController
                 return response()->json(['message' => $validation->messages()->first()], 422);
             }
 
-            $user = \JWTAuth::parseToken()->authenticate();
+            $user = JWTAuth::parseToken()->authenticate();
             $task = new Task();
             $task->fill(request()->all());
             $task->uuid = generateUuid();

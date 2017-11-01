@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\API\V1\APIController;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use JWTAuth;
 use Validator;
 
 /**
@@ -52,7 +52,7 @@ class TodoController extends APIController
                 return response()->json(['message' => $validation->messages()->first()], 422);
             }
 
-            $user = \JWTAuth::parseToken()->authenticate();
+            $user = JWTAuth::parseToken()->authenticate();
             $todo = new Todo();
             $todo->fill(request()->all());
             $todo->user_id = $user->id;
