@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
+use App\Models\Profile\Profile;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use JWTAuth;

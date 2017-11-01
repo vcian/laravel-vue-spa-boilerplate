@@ -2,7 +2,7 @@
 
 namespace App\Models\User\Traits\Relationship;
 
-use App\Models\Profile;
+use App\Models\Profile\Profile;
 
 /**
  * Trait UserRelationship.
