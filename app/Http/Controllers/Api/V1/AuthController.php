@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Profile;
-use App\Models\User;
+use App\Models\User\User;
 use App\Notifications\Activated;
 use App\Notifications\Activation;
 use App\Notifications\PasswordReset;

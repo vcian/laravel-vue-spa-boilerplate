@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Models\User;
+use App\Models\User\User;
 use Database\DisableForeignKeys;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
