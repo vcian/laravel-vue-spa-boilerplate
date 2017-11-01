@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Todo;
+use App\Models\Todo\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use JWTAuth;

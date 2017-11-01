@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Todo;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Configuration.
+ * Class Todo.
  */
-class Configuration extends Eloquent
+class Todo extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'config';
+    protected $table = 'todos';
 
     /**
      * The attributes that are mass assignable.
@@ -22,16 +22,11 @@ class Configuration extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'name', 'value',
+              'todo',
     ];
 
     /**
      * @var string
      */
     protected $primaryKey = 'id';
-
-    /**
-     * @var bool
-     */
-    public $timestamps = false;
 }
