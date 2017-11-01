@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use JWTAuth;
+use Validator;
 use App\Models\Task\Task;
 use App\Models\User\User;
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use JWTAuth;
-use Validator;
+use App\Http\Resources\UserResource;
+use App\Repositories\UserRepository;
 
 /**
  * User Controller.
@@ -46,10 +47,9 @@ class UserController extends APIController
     public function index(Request $request)
     {
         try {
-            return $this->repositery->getAllUsers($request);
+            return UserResource::collection($this->repositery->getAllUsers($request));
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
