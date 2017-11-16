@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Resources\UserResource;
 use App\Models\Task\Task;
 use App\Models\User\User;
 use App\Repositories\UserRepository;
@@ -50,6 +49,7 @@ class UserController extends APIController
             return $this->repositery->getAllUsers($request);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
+
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
