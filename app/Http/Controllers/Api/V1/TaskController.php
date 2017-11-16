@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Task;
+use App\Models\Task\Task;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Validator;

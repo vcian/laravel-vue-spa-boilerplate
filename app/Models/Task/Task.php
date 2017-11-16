@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Task;
 
 use Eloquent;
 
-/**
- * Class Configuration.
- */
-class Configuration extends Eloquent
+class Task extends Eloquent
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'config';
+    protected $table = 'tasks';
 
     /**
      * The attributes that are mass assignable.
@@ -22,16 +19,11 @@ class Configuration extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'name', 'value',
+        'title', 'description', 'start_date', 'due_date',
     ];
 
     /**
      * @var string
      */
     protected $primaryKey = 'id';
-
-    /**
-     * @var bool
-     */
-    public $timestamps = false;
 }

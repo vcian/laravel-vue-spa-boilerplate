@@ -10,7 +10,7 @@ function generateUuid()
 /**
  * @return bool
  *
- * @author Sang Nguyen
+ * @author Viral Solani
  */
 function check_database_connection()
 {
