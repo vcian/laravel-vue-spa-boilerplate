@@ -84,7 +84,7 @@ class InstallAppCommand extends Command
      *
      * @return void
      *
-     * @author Sang Nguyen
+     * @author Viral Solani
      */
     protected function setDatabaseInfo()
     {
@@ -168,7 +168,7 @@ class InstallAppCommand extends Command
      *
      * @return string
      *
-     * @author Sang Nguyen
+     * @author Viral Solani
      */
     protected function guessDatabaseName()
     {
@@ -187,7 +187,7 @@ class InstallAppCommand extends Command
      *
      * @return string
      *
-     * @author Sang Nguyen
+     * @author Viral Solani
      */
     protected function getKeyFile()
     {

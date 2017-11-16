@@ -1,34 +1,84 @@
 ## Laravel-Vue-Spa-Boilerplate
 
+# Getting started
+
+## Introduction
+* This is a Laravel (5.5) API Boilerplate Projcet with JWT Authentication.
+
 ## Installation
 
-## Using install shell script
+Please check the official laravel installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/5.4/installation#installation)
 
-#### For Linux users:
 
- If you got this error /usr/bin/env: ‘bash\r’: No such file or directory"
- 
- Please run `sed $'s/\r$//' ./install.sh > ./install.Unix.sh` and use ./install.Unix.sh to install
+Clone the repository
 
- If you got this error "bash: ./install.sh: Permission denied"
- 
- Please run `sudo chmod 777 -R install.sh` to make sure this file has permission to execute
+    git clone https://github.com/viitoradmin/laravel-vue-spa-boilerplate.git
 
-#### Install step
- <ul>
- 	<li>./install.sh</li>
- </ul>
+Switch to the repo folder
 
-### Manual installation
+    cd laravel-vue-spa-boilerplate
 
-* Import sample database from `database/dump/laravel_vuew_spa_boilerplate.sql`
-  - Default Admin URL `/login`
-  - Default email and password is `admin@admin.com` - `123456`
-* Create `.env` file from `.env-example` and update your configuration
+Install all the dependencies using composer
 
-### Create Table Migration Pattern
+    composer install
 
-<ul>
-	<li>Please read proper document to create table with proper naming convention e.g.<code>php artisan make:migration create_users_table --create=users</code>, try to use plural form.</li>
-	<li>Please use proper data type and data length,click here to read document [Here](https://laravel.com/docs/5.5/migrations)</li>
-</ul>
+Copy the example env file and make the required configuration changes in the .env file
+
+    cp .env.example .env
+
+Generate a new application key
+
+    php artisan key:generate
+
+Generate a new JWT authentication secret key
+
+    php artisan jwt:generate
+
+Run the database migrations (**Set the database connection in .env before migrating**)
+
+    php artisan migrate
+
+Start the local development server
+
+    php artisan serve
+
+You can now access the server at http://localhost:8000
+
+**TL;DR command list**
+
+    git clone https://github.com/viitoradmin/laravel-vue-spa-boilerplate.git
+    cd laravel-vue-spa-boilerplate
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    php artisan jwt:generate
+
+**Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
+
+    php artisan migrate
+    php artisan serve
+
+## Environment variables
+
+- `.env` - Environment variables can be set in this file
+
+***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
+
+# Authentication
+
+This applications uses JSON Web Token (JWT) to handle authentication. The token is passed with each request using the `Authorization` header with `Token` scheme. The JWT authentication middleware handles the validation and authentication of the token. Please check the following sources to learn more about JWT.
+
+- https://jwt.io/introduction/
+- https://self-issued.info/docs/draft-ietf-oauth-json-web-token.html
+
+## Issues
+
+If you come across any issues please report them [here](https://github.com/viitoradmin/laravel-vue-spa-boilerplate/issues).
+
+## Contributing
+Feel free to create any pull requests for the project. For propsing any new changes or features you want to add to the project, you can send us an email at vishal@viitorcloud.com or ruchit.patel@viitorcloud.com
+
+## License
+
+[MIT LICENSE](https://github.com/viitoradmin/laravel-vue-spa-boilerplate/blob/master/LICENSE.txt)
+

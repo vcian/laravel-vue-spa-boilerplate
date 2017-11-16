@@ -47,10 +47,9 @@ class UserController extends APIController
     public function index(Request $request)
     {
         try {
-            return UserResource::collection($this->repositery->getAllUsers($request));
+            return $this->repositery->getAllUsers($request);
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
-
             return response()->json(['message' => 'Sorry, something went wrong!'], 422);
         }
     }
