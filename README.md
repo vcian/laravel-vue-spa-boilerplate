@@ -80,5 +80,4 @@ Feel free to create any pull requests for the project. For propsing any new chan
 
 ## License
 
-[MIT LICENSE](https://github.com/viitoradmin/laravel-vue-spa-boilerplate/blob/master/LICENSE.txt)
-
+[MIT LICENSE](https://github.com/viitoradmin/laravel-vue-spa-boilerplate/blob/master/LICENSE)
