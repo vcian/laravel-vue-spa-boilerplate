@@ -36,6 +36,14 @@ Generate a new JWT authentication secret key
 
     php artisan jwt:generate
 
+Run Artisan Command for database setup, connection and configuration.
+    
+    php artisan install:app
+
+Please add proper information while performing above command.
+
+or you can setup manually using below command
+
 Run the database migrations (**Set the database connection in .env before migrating**)
 
     php artisan migrate
