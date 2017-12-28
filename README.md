@@ -5,7 +5,7 @@
 # Getting started
 
 ## Introduction
-* This is a Laravel (5.5) API Boilerplate Projcet with JWT Authentication.
+* This is a Laravel (5.5) API Boilerplate Project with JWT Authentication.
 
 ## Installation
 
