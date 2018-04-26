@@ -86,7 +86,7 @@ This applications uses JSON Web Token (JWT) to handle authentication. The token 
 If you come across any issues please report them [here](https://github.com/viitoradmin/laravel-vue-spa-boilerplate/issues).
 
 ## Contributing
-Feel free to create any pull requests for the project. For propsing any new changes or features you want to add to the project, you can send us an email at vishal@viitorcloud.com or ruchit.patel@viitorcloud.com
+Feel free to create any pull requests for the project. For proposing any new changes or features you want to add to the project, you can send us an email at vishal@viitorcloud.com or ruchit.patel@viitorcloud.com
 
 ## License
 
