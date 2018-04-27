@@ -26,13 +26,13 @@ class UserRepository extends BaseRepository
         $users = User::userProfile();
 
         if ($request->has('first_name')) {
-            $query->whereHas('profile', function ($q) use ($request) {
+            $users->whereHas('profile', function ($q) use ($request) {
                 $q->where('first_name', 'like', '%'.request('first_name').'%');
             });
         }
 
         if ($request->has('last_name')) {
-            $query->whereHas('profile', function ($q) use ($request) {
+            $users->whereHas('profile', function ($q) use ($request) {
                 $q->where('last_name', 'like', '%'.request('last_name').'%');
             });
         }

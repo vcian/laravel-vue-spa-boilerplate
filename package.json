@@ -11,21 +11,21 @@
   },
   "devDependencies": {
     "axios": "^0.16.2",
-    "browser-sync": "^2.18.13",
+    "browser-sync": "^2.23.7",
     "browser-sync-webpack-plugin": "^1.2.0",
-    "cross-env": "^5.0.1",
-    "laravel-mix": "^1.0",
-    "normalize-scss": "^7.0.0"
+    "cross-env": "^5.1.4",
+    "laravel-mix": "^1.7.2",
+    "normalize-scss": "^7.0.1"
   },
   "dependencies": {
     "click-confirm": "^1.1.0",
-    "js-cookie": "^2.1.4",
-    "laravel-vue-pagination": "^1.0.6",
-    "vue": "^2.4.2",
+    "js-cookie": "^2.2.0",
+    "laravel-vue-pagination": "^1.2.0",
+    "vue": "^2.5.16",
     "vue-range-slider": "^0.2.4",
     "vue-router": "^2.7.0",
-    "vuejs-datepicker": "^0.9.11",
+    "vuejs-datepicker": "^0.9.29",
     "vuex": "^2.4.0",
-    "vuex-persistedstate": "^2.0.0"
+    "vuex-persistedstate": "^2.5.2"
   }
 }
