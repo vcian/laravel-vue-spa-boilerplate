@@ -3,6 +3,7 @@
 # Getting started
 
 ## Introduction
+
 * This is a Laravel (5.5) Vue js SPA(Single page application) Boilerplate Project with JWT Authentication.
 
 ## Installation
@@ -38,6 +39,14 @@ If you have linux system, you can execute below command only in your project roo
     
     1) sudo chmod -R 777 install.sh
     2) ./install.sh
+
+Run Artisan Command for database setup, connection and configuration.
+    
+    php artisan install:app
+
+Please add proper information while performing above command.
+
+or you can setup manually using below command
 
 Run the database migrations (**Set the database connection in .env before migrating**)
 
