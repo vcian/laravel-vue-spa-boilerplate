@@ -1,11 +1,10 @@
 ## Laravel-Vue-Spa-Boilerplate
-[![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/viitoradmin/laravel-vue-spa-boilerplate/blob/master/LICENSE)
-[![StyleCI](https://styleci.io/repos/30171828/shield?style=plastic)](https://styleci.io/repos/105789824/shield?style=plastic)
 
 # Getting started
 
 ## Introduction
-* This is a Laravel (5.5) API Boilerplate Project with JWT Authentication.
+
+* This is a Laravel (5.5) Vue js SPA(Single page application) Boilerplate Project with JWT Authentication.
 
 ## Installation
 
@@ -35,6 +34,11 @@ Generate a new application key
 Generate a new JWT authentication secret key
 
     php artisan jwt:generate
+
+If you have linux system, you can execute below command only in your project root
+    
+    1) sudo chmod -R 777 install.sh
+    2) ./install.sh
 
 Run Artisan Command for database setup, connection and configuration.
     
