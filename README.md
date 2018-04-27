@@ -34,6 +34,11 @@ Generate a new JWT authentication secret key
 
     php artisan jwt:generate
 
+If you have linux system, you can execute below command only in your project root
+    
+    1) sudo chmod -R 777 install.sh
+    2) ./install.sh
+
 Run the database migrations (**Set the database connection in .env before migrating**)
 
     php artisan migrate
