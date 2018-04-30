@@ -90,6 +90,7 @@ class InstallAppCommand extends Command
     {
         $this->info('Setting up database (please make sure you have created database for this site)...!');
 
+        $this->host = env('DB_HOST');
         $this->port = env('DB_PORT');
         $this->database = env('DB_DATABASE');
         $this->username = env('DB_USERNAME');
@@ -97,6 +98,7 @@ class InstallAppCommand extends Command
 
         while (!check_database_connection()) {
             // Ask for database details
+            $this->host = $this->ask('Enter a host name?', 'localhost');
             $this->port = $this->ask('Enter a database port?', 3306);
             $this->database = $this->ask('Enter a database name', $this->guessDatabaseName());
 
@@ -111,6 +113,7 @@ class InstallAppCommand extends Command
 
             // Update DB credentials in .env file.
             $contents = $this->getKeyFile();
+            $contents = preg_replace('/('.preg_quote('DB_HOST=').')(.*)/', 'DB_HOST='.$this->host, $contents);
             $contents = preg_replace('/('.preg_quote('DB_PORT=').')(.*)/', 'DB_PORT='.$this->port, $contents);
             $contents = preg_replace('/('.preg_quote('DB_DATABASE=').')(.*)/', 'DB_DATABASE='.$this->database, $contents);
             $contents = preg_replace('/('.preg_quote('DB_USERNAME=').')(.*)/', 'DB_USERNAME='.$this->username, $contents);
