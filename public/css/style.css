@@ -212,7 +212,7 @@ html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 @-ms-viewport {
@@ -12844,7 +12844,7 @@ Form Material page
 }
 
 .form-material .form-control {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0);
   background-position: center bottom, center calc(100% - 1px);
   background-repeat: no-repeat;
   background-size: 0 2px, 100% 1px;
@@ -15184,13 +15184,13 @@ Stylish tooltip
   margin: -7px 0 0 -15px;
   width: 30px;
   height: 20px;
-  background: url(/fonts/tooltip1.svg?0fe468c244a79221d05c33fe420907a1) no-repeat center center;
+  background: url(/fonts/tooltip1.svg?410969661a19142e0bebd06ce6ded4a0) no-repeat center center;
   background-size: 100%;
 }
 
 .tooltip-content3 {
   position: absolute;
-  background: url(/fonts/shape1.svg?ae011d37cceae760ab311d8b9fa924bf) no-repeat center bottom;
+  background: url(/fonts/shape1.svg?b986fe6a0c6b736f3d7dbb877744b765) no-repeat center bottom;
   background-size: 100% 100%;
   z-index: 9999;
   width: 200px;
@@ -15458,7 +15458,7 @@ Error Page
 .error-box {
   height: 100%;
   position: fixed;
-  background: url(/images/error-bg.jpg?7fda6985a44c7b92e8cfb5e865717d78) no-repeat center center #fff;
+  background: url(/../assets/images/background/error-bg.jpg) no-repeat center center #fff;
   width: 100%;
 }
 
@@ -17969,7 +17969,7 @@ When click on sidebar toggler and also for tablet
 @font-face {
   font-family: 'FontAwesome';
   src: url(/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713);
-  src: url(/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713) format("embedded-opentype"), url(/fonts/fontawesome-webfont.woff2?af7ae505a9eed503f8b8e6982036873e) format("woff2"), url(/fonts/fontawesome-webfont.woff?fee66e712a8a08eef5805a46892932ad) format("woff"), url(/fonts/fontawesome-webfont.ttf?b06871f281fee6b241d60582ae9369b9) format("truetype"), url(/fonts/fontawesome-webfont.svg?acf3dcb7ff752b5296ca23ba2c7c2606) format("svg");
+  src: url(/fonts/fontawesome-webfont.eot?674f50d287a8c48dc19ba404d20fe713) format("embedded-opentype"), url(/fonts/fontawesome-webfont.woff2?af7ae505a9eed503f8b8e6982036873e) format("woff2"), url(/fonts/fontawesome-webfont.woff?fee66e712a8a08eef5805a46892932ad) format("woff"), url(/fonts/fontawesome-webfont.ttf?b06871f281fee6b241d60582ae9369b9) format("truetype"), url(/fonts/fontawesome-webfont.svg?912ec66d7572ff821749319396470bde) format("svg");
   font-weight: normal;
   font-style: normal;
 }
