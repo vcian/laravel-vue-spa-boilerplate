@@ -126,7 +126,7 @@
                 todoForm: new Form({
                     'todo': ''
                 }),
-                show_todo_status: '1'
+                show_todo_status: ''
             }
         },
         components : { ClickConfirm },
@@ -162,6 +162,7 @@
             },
             toggleTodoStatus(todo){
                 axios.post('/api/v1/todo/status',{id:todo.id}).then(response => {
+                    toastr['success'](response.message);
                     todo.status = !todo.status;
                 }).catch(error => {
                     toastr['error'](error.response.message);
