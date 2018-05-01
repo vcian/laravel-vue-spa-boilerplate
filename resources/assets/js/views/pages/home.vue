@@ -126,7 +126,7 @@
                 todoForm: new Form({
                     'todo': ''
                 }),
-                show_todo_status: ''
+                show_todo_status: '1'
             }
         },
         components : { ClickConfirm },
