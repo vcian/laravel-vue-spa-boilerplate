@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Configuration;
+use App\Models\Configuration\Configuration;
 use Illuminate\Http\Request;
 
 /**
