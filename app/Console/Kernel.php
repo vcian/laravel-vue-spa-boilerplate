@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\InstallAppCommand;
+use App\Console\Commands\RepositoryMakeCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,9 +14,10 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        Commands\InstallAppCommand::class,
-    ];
+    protected $commands = array(
+        InstallAppCommand::class,
+        RepositoryMakeCommand::class,
+    );
 
     /**
      * Define the application's command schedule.

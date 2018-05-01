@@ -78,6 +78,26 @@ You can now access the server at http://localhost:8000
 
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 
+## Repository Creation
+<ul>
+    <li>
+        If you want to create "Base Repository" and BaseRepository.php not exist  in  your project at that time, you can execute below command.
+        <code>php artisan make:repository BaseRepository -b</code>
+    </li>
+    <li>
+        If you want to create repository for any module, you can execute below command
+        <code>php artisan make:repository <Name of the Repository></code>
+    </li>
+    <li>
+        If you want to create repository inside "Asset" folder,
+        <code>php artisan make:repository Asset\<Name of the Repository> </code>
+    </li>
+    <li>
+        If you want to create repository directly inside "Repository" folder, 
+        <code>php artisan make:repository <Name of the Repository></code>
+    </li>
+</ul>
+
 # Authentication
 
 This applications uses JSON Web Token (JWT) to handle authentication. The token is passed with each request using the `Authorization` header with `Token` scheme. The JWT authentication middleware handles the validation and authentication of the token. Please check the following sources to learn more about JWT.
