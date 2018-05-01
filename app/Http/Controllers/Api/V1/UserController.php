@@ -76,7 +76,7 @@ class UserController extends APIController
             }
 
             $user = JWTAuth::parseToken()->authenticate();
-            $profile = $user->Profile;
+            $profile = $user->profile;
 
             $profile->first_name = request('first_name');
             $profile->last_name = request('last_name');
@@ -127,7 +127,7 @@ class UserController extends APIController
             }
 
             $user = JWTAuth::parseToken()->authenticate();
-            $profile = $user->Profile;
+            $profile = $user->profile;
 
             if ($profile->avatar && \File::exists($this->avatar_path.$profile->avatar)) {
                 \File::delete($this->avatar_path.$profile->avatar);
@@ -177,7 +177,7 @@ class UserController extends APIController
         try {
             $user = JWTAuth::parseToken()->authenticate();
 
-            $profile = $user->Profile;
+            $profile = $user->profile;
             if (!$profile->avatar) {
                 return response()->json(['message' => 'No avatar uploaded!'], 422);
             }
