@@ -98,7 +98,7 @@ class InstallAppCommand extends Command
 
         while (!check_database_connection()) {
             // Ask for database details
-            $this->host = $this->ask('Enter a database host?', '127.0.0.1');
+            $this->host = $this->ask('Enter a host name?', 'localhost');
             $this->port = $this->ask('Enter a database port?', 3306);
             $this->database = $this->ask('Enter a database name', $this->guessDatabaseName());
 

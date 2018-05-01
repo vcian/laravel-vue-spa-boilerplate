@@ -30341,7 +30341,7 @@ if (false) {
 /* 130 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: write EPIPE\n    at _errnoException (util.js:1024:11)\n    at WriteWrap.afterWrite [as oncomplete] (net.js:867:14)\n    at runLoaders (/var/www/laravel-vue-spa-boilerplate/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /var/www/laravel-vue-spa-boilerplate/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /var/www/laravel-vue-spa-boilerplate/node_modules/loader-runner/lib/LoaderRunner.js:230:18\n    at context.callback (/var/www/laravel-vue-spa-boilerplate/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at /var/www/laravel-vue-spa-boilerplate/node_modules/img-loader/index.js:45:31\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)");
 
 /***/ })
 /******/ ]);
