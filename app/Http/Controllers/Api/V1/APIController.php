@@ -142,6 +142,6 @@ class APIController extends Controller
     public function throwValidation($message)
     {
         return $this->setStatusCode(422)
-                    ->respondWithError($messaege);
+                    ->respondWithError($message);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Configuration\Configuration;
+use App\Repositories\Configuration\ConfigurationRepository;
 use Illuminate\Http\Request;
 
 /**
@@ -11,11 +11,26 @@ use Illuminate\Http\Request;
 class ConfigurationController extends APIController
 {
     /**
+     * ConfigurationRepository $conf
+     *
+     * @var object
+     */
+    protected $configuration;
+
+    /**
+     * @param ConfigurationRepository $conf
+     */
+    public function __construct(ConfigurationRepository $conf)
+    {
+        $this->configuration = $conf;
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $config = Configuration::all()->pluck('value', 'name')->all();
+        $config = $this->configuration->getConfigurationData();
 
         return response()->json(compact('config'));
     }
@@ -28,14 +43,8 @@ class ConfigurationController extends APIController
     public function store(Request $request)
     {
         $input = $request->all();
-        foreach ($input as $key => $value) {
-            $value = (is_array($value)) ? implode(',', $value) : $value;
-            $config = Configuration::firstOrNew(['name' => $key]);
-            $config->value = $value;
-            $config->save();
-        }
 
-        $config = Configuration::all()->pluck('value', 'name')->all();
+        $config = $this->configuration->storeConfigurationData($input);
 
         return response()->json(['message' => 'Configuration stored successfully!']);
     }

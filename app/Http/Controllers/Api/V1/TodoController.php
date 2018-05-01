@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Todo\Todo;
+use App\Repositories\Todo\TodoRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use JWTAuth;
-use Validator;
 
 /**
  * To Do Controller.
@@ -14,28 +11,28 @@ use Validator;
 class TodoController extends APIController
 {
     /**
+     * TodoRepository $todo
+     *
+     * @var object
+     */
+    protected $todo;
+
+    /**
+     * @param TodoRepository $todo
+     */
+    public function __construct(TodoRepository $todo)
+    {
+        $this->todo = $todo;
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
-            $query = Todo::whereUserId($user->id);
+        $todo = $this->todo->getTodoList();
 
-            if (request('show_todo_status') == '1') {
-                $query->whereStatus(1);
-            } else if (request('show_todo_status') == '0') {
-                $query->whereStatus(0);
-            }
-
-            $todos = $query->get();
-
-            return $todos;
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $todo;
     }
 
     /**
@@ -45,78 +42,32 @@ class TodoController extends APIController
      */
     public function store(Request $request)
     {
-        try {
-            $validation = Validator::make($request->all(), [
-                'todo' => 'required',
-            ]);
+        $input = $request->all();
 
-            if ($validation->fails()) {
-                return response()->json(['message' => $validation->messages()->first()], 422);
-            }
+        $tasks = $this->todo->storeTodo($input);
 
-            $user = JWTAuth::parseToken()->authenticate();
-            $todo = new Todo();
-            $todo->fill(request()->all());
-            $todo->user_id = $user->id;
-            $todo->save();
-
-            return response()->json(['message' => 'Todo added!', 'data' => $todo]);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 
     /**
-     * @param Request $request
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function toggleStatus(Request $request)
+    public function toggleStatus()
     {
-        try {
-            $todo = Todo::find(request('id'));
-            $user = JWTAuth::parseToken()->authenticate();
+        $tasks = $this->todo->todoStatus();
 
-            if (!$todo || $todo->user_id != $user->id) {
-                return response()->json(['message' => 'Couldnot find todo!'], 422);
-            }
-
-            $todo->status = !$todo->status;
-            $todo->save();
-
-            return response()->json(['message' => 'Todo updated!']);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 
     /**
-     * @param Request $request
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        try {
-            $todo = Todo::find($id);
-            $user = JWTAuth::parseToken()->authenticate();
+        $tasks = $this->todo->deleteTodo($id);
 
-            if (!$todo || $todo->user_id != $user->id) {
-                return response()->json(['message' => 'Couldnot find todo!'], 422);
-            }
-
-            $todo->delete();
-
-            return response()->json(['message' => 'Todo deleted!']);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 }
