@@ -22,7 +22,7 @@ class TodoController extends APIController
             $user = JWTAuth::parseToken()->authenticate();
             $query = Todo::whereUserId($user->id);
 
-            if (request()->has('show_todo_status')) {
+            if (request('show_todo_status')) {
                 $query->whereStatus(request('show_todo_status'));
             }
 
