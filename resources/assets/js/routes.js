@@ -39,6 +39,10 @@ let routes = [
                 path: '/user',
                 component: require('./views/user/index')
             },
+            {
+                path: '/add-user',
+                component: require('./views/user/form')
+            },
         ]
     },
     {

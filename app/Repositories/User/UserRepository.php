@@ -255,7 +255,7 @@ class UserRepository extends BaseRepository
                 ];
             }
 
-            return response()->json(['success', 'message' => $responseArr]);
+            return response()->json($responseArr);
 
         } catch (\Exception $ex) {
 

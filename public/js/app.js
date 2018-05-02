@@ -22358,6 +22358,9 @@ var routes = [{
     }, {
         path: '/user',
         component: __webpack_require__(98)
+    }, {
+        path: '/add-user',
+        component: __webpack_require__(144)
     }]
 }, {
     path: '/',
@@ -27489,13 +27492,11 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__form__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_helper__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_click_confirm__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_click_confirm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_click_confirm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_vue_pagination__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_vue_pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_laravel_vue_pagination__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_helper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_click_confirm__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_click_confirm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_click_confirm__);
 //
 //
 //
@@ -27623,24 +27624,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { UserForm: __WEBPACK_IMPORTED_MODULE_0__form___default.a, pagination: __WEBPACK_IMPORTED_MODULE_1_laravel_vue_pagination___default.a, ClickConfirm: __WEBPACK_IMPORTED_MODULE_3_click_confirm___default.a },
+    components: { pagination: __WEBPACK_IMPORTED_MODULE_0_laravel_vue_pagination___default.a, ClickConfirm: __WEBPACK_IMPORTED_MODULE_2_click_confirm___default.a },
     data: function data() {
         return {
             users: {},
@@ -27653,7 +27643,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     },
-    created: function created() {
+    mounted: function mounted() {
         this.getUsers();
     },
 
@@ -27664,7 +27654,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (typeof page === 'undefined') {
                 page = 1;
             }
-            var url = __WEBPACK_IMPORTED_MODULE_2__services_helper__["a" /* default */].getFilterURL(this.filterUserForm);
+            var url = __WEBPACK_IMPORTED_MODULE_1__services_helper__["a" /* default */].getFilterURL(this.filterUserForm);
             axios.get('/api/v1/user?page=' + page + url).then(function (response) {
                 return _this.users = response.data;
             });
@@ -27673,10 +27663,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.delete('/api/v1/user/' + user.id).then(function (response) {
+                console.log(response);
                 toastr['success'](response.data.message);
                 _this2.getUsers();
-            }).catch(function (error) {
-                toastr['error'](error.response.data.message);
+            }).catch(function (response) {
+                toastr['error'](response.data.message);
             });
         },
         getUserStatus: function getUserStatus(user) {
@@ -27685,10 +27676,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     filters: {
         moment: function moment(date) {
-            return __WEBPACK_IMPORTED_MODULE_2__services_helper__["a" /* default */].formatDate(date);
+            return __WEBPACK_IMPORTED_MODULE_1__services_helper__["a" /* default */].formatDate(date);
         },
         ucword: function ucword(value) {
-            return __WEBPACK_IMPORTED_MODULE_2__services_helper__["a" /* default */].ucword(value);
+            return __WEBPACK_IMPORTED_MODULE_1__services_helper__["a" /* default */].ucword(value);
         }
     }
 });
@@ -27728,465 +27719,468 @@ var render = function() {
             "div",
             { staticClass: "card-body" },
             [
-              _c("h4", { staticClass: "card-title" }, [_vm._v("Add User")]),
+              _c("h4", { staticClass: "card-title" }, [_vm._v("Filter User")]),
               _vm._v(" "),
-              _c("user-form", { on: { completed: _vm.getUsers } })
+              _c("div", { staticClass: "row m-t-40" }, [
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("First Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.filterUserForm.first_name,
+                          expression: "filterUserForm.first_name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      domProps: { value: _vm.filterUserForm.first_name },
+                      on: {
+                        blur: _vm.getUsers,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.filterUserForm,
+                            "first_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Last Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.filterUserForm.last_name,
+                          expression: "filterUserForm.last_name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      domProps: { value: _vm.filterUserForm.last_name },
+                      on: {
+                        blur: _vm.getUsers,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.filterUserForm,
+                            "last_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.filterUserForm.email,
+                          expression: "filterUserForm.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      domProps: { value: _vm.filterUserForm.email },
+                      on: {
+                        blur: _vm.getUsers,
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.filterUserForm,
+                            "email",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Status")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.filterUserForm.status,
+                            expression: "filterUserForm.status"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "status" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.filterUserForm,
+                                "status",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.getUsers
+                          ]
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
+                        _vm._v(" "),
+                        _c(
+                          "option",
+                          { attrs: { value: "pending_activation" } },
+                          [_vm._v("Pending Activation")]
+                        ),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "activated" } }, [
+                          _vm._v("Activated")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "banned" } }, [
+                          _vm._v("Banned")
+                        ])
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Sort By")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.filterUserForm.sortBy,
+                            expression: "filterUserForm.sortBy"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "sortBy" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.filterUserForm,
+                                "sortBy",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.getUsers
+                          ]
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "first_name" } }, [
+                          _vm._v("First Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "last_name" } }, [
+                          _vm._v("Last Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "email" } }, [
+                          _vm._v("Email")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "status" } }, [
+                          _vm._v("Status")
+                        ])
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "" } }, [_vm._v("Order")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.filterUserForm.order,
+                            expression: "filterUserForm.order"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "order" },
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.filterUserForm,
+                                "order",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            _vm.getUsers
+                          ]
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "asc" } }, [
+                          _vm._v("Asc")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "desc" } }, [
+                          _vm._v("Desc")
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("h4", { staticClass: "card-title" }, [_vm._v("User List")]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: "/add-user" } }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn badge-info float-right",
+                    staticStyle: { "margin-top": "-30px" }
+                  },
+                  [_vm._v("Add User")]
+                )
+              ]),
+              _vm._v(" "),
+              _vm.users.total
+                ? _c("h6", { staticClass: "card-subtitle" }, [
+                    _vm._v(
+                      "Total " + _vm._s(_vm.users.total) + " result found!"
+                    )
+                  ])
+                : _c("h6", { staticClass: "card-subtitle" }, [
+                    _vm._v("No result found!")
+                  ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "table-responsive" }, [
+                _vm.users.total
+                  ? _c("table", { staticClass: "table" }, [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.users.data, function(user) {
+                          return _c("tr", [
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(user.profile.first_name)
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(user.profile.last_name)
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("moment")(user.profile.date_of_birth)
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(_vm._f("ucword")(user.profile.gender))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: { textContent: _vm._s(user.email) }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                innerHTML: _vm._s(_vm.getUserStatus(user))
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c(
+                                  "click-confirm",
+                                  {
+                                    attrs: {
+                                      "yes-class": "btn btn-success",
+                                      "no-class": "btn btn-danger"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-danger btn-sm",
+                                        attrs: {
+                                          "data-toggle": "tooltip",
+                                          title: "Delete User"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.deleteUser(user)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-trash" })]
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        })
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-8" },
+                    [
+                      _c("pagination", {
+                        attrs: { data: _vm.users, limit: 3 },
+                        on: { "pagination-change-page": _vm.getUsers }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "float-right" }, [
+                      _vm.users.total
+                        ? _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.filterUserForm.pageLength,
+                                  expression: "filterUserForm.pageLength"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { name: "pageLength" },
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.filterUserForm,
+                                      "pageLength",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  _vm.getUsers
+                                ]
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "5" } }, [
+                                _vm._v("5 per page")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "10" } }, [
+                                _vm._v("10 per page")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "25" } }, [
+                                _vm._v("25 per page")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "100" } }, [
+                                _vm._v("100 per page")
+                              ])
+                            ]
+                          )
+                        : _vm._e()
+                    ])
+                  ])
+                ])
+              ])
             ],
             1
           )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h4", { staticClass: "card-title" }, [_vm._v("Filter User")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row m-t-40" }, [
-              _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("First Name")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.filterUserForm.first_name,
-                        expression: "filterUserForm.first_name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    domProps: { value: _vm.filterUserForm.first_name },
-                    on: {
-                      blur: _vm.getUsers,
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.filterUserForm,
-                          "first_name",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Last Name")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.filterUserForm.last_name,
-                        expression: "filterUserForm.last_name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    domProps: { value: _vm.filterUserForm.last_name },
-                    on: {
-                      blur: _vm.getUsers,
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.filterUserForm,
-                          "last_name",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.filterUserForm.email,
-                        expression: "filterUserForm.email"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    domProps: { value: _vm.filterUserForm.email },
-                    on: {
-                      blur: _vm.getUsers,
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.filterUserForm,
-                          "email",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Status")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.filterUserForm.status,
-                          expression: "filterUserForm.status"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "status" },
-                      on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.filterUserForm,
-                              "status",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                          _vm.getUsers
-                        ]
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "pending_activation" } }, [
-                        _vm._v("Pending Activation")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "activated" } }, [
-                        _vm._v("Activated")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "banned" } }, [
-                        _vm._v("Banned")
-                      ])
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Sort By")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.filterUserForm.sortBy,
-                          expression: "filterUserForm.sortBy"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "sortBy" },
-                      on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.filterUserForm,
-                              "sortBy",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                          _vm.getUsers
-                        ]
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "first_name" } }, [
-                        _vm._v("First Name")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "last_name" } }, [
-                        _vm._v("Last Name")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "email" } }, [
-                        _vm._v("Email")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "status" } }, [
-                        _vm._v("Status")
-                      ])
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Order")]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.filterUserForm.order,
-                          expression: "filterUserForm.order"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { name: "order" },
-                      on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.filterUserForm,
-                              "order",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          },
-                          _vm.getUsers
-                        ]
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "asc" } }, [
-                        _vm._v("Asc")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "desc" } }, [
-                        _vm._v("Desc")
-                      ])
-                    ]
-                  )
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("h4", { staticClass: "card-title" }, [_vm._v("User List")]),
-            _vm._v(" "),
-            _vm.users.total
-              ? _c("h6", { staticClass: "card-subtitle" }, [
-                  _vm._v("Total " + _vm._s(_vm.users.total) + " result found!")
-                ])
-              : _c("h6", { staticClass: "card-subtitle" }, [
-                  _vm._v("No result found!")
-                ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "table-responsive" }, [
-              _vm.users.total
-                ? _c("table", { staticClass: "table" }, [
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.users.data, function(user) {
-                        return _c("tr", [
-                          _c("td", {
-                            domProps: {
-                              textContent: _vm._s(user.profile.first_name)
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: {
-                              textContent: _vm._s(user.profile.last_name)
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(
-                                _vm._f("moment")(user.profile.date_of_birth)
-                              )
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              _vm._s(_vm._f("ucword")(user.profile.gender))
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: { textContent: _vm._s(user.email) }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: {
-                              innerHTML: _vm._s(_vm.getUserStatus(user))
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            [
-                              _c(
-                                "click-confirm",
-                                {
-                                  attrs: {
-                                    "yes-class": "btn btn-success",
-                                    "no-class": "btn btn-danger"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-danger btn-sm",
-                                      attrs: {
-                                        "data-toggle": "tooltip",
-                                        title: "Delete User"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          $event.preventDefault()
-                                          _vm.deleteUser(user)
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "fa fa-trash" })]
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ])
-                      })
-                    )
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "div",
-                  { staticClass: "col-md-8" },
-                  [
-                    _c("pagination", {
-                      attrs: { data: _vm.users, limit: 3 },
-                      on: { "pagination-change-page": _vm.getUsers }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-4" }, [
-                  _c("div", { staticClass: "float-right" }, [
-                    _vm.users.total
-                      ? _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.filterUserForm.pageLength,
-                                expression: "filterUserForm.pageLength"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { name: "pageLength" },
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.filterUserForm,
-                                    "pageLength",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                },
-                                _vm.getUsers
-                              ]
-                            }
-                          },
-                          [
-                            _c("option", { attrs: { value: "5" } }, [
-                              _vm._v("5 per page")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "10" } }, [
-                              _vm._v("10 per page")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "25" } }, [
-                              _vm._v("25 per page")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "100" } }, [
-                              _vm._v("100 per page")
-                            ])
-                          ]
-                        )
-                      : _vm._e()
-                  ])
-                ])
-              ])
-            ])
-          ])
         ])
       ])
     ])
@@ -30438,6 +30432,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_helper__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_router__ = __webpack_require__(10);
 //
 //
 //
@@ -30494,6 +30489,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -30529,7 +30534,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.userForm.post('api/v1/user').then(function (response) {
                 toastr['success'](response.message);
-                _this.$emit('completed', response.user);
+                _this.$router.push('user');
             }).catch(function (response) {
                 toastr['error'](response.message);
             });
@@ -30568,261 +30573,297 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.proceed($event)
-        }
-      }
-    },
-    [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("First Name")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.userForm.first_name,
-                  expression: "userForm.first_name"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", value: "" },
-              domProps: { value: _vm.userForm.first_name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.userForm, "first_name", $event.target.value)
-                }
-              }
-            })
-          ]),
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-lg-12" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("h4", { staticClass: "card-title" }, [_vm._v("Add new Task")]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("Last Name")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.userForm.last_name,
-                  expression: "userForm.last_name"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", value: "" },
-              domProps: { value: _vm.userForm.last_name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.userForm, "last_name", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("Email")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.userForm.email,
-                  expression: "userForm.email"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", value: "" },
-              domProps: { value: _vm.userForm.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.userForm, "email", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("Password")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.userForm.password,
-                  expression: "userForm.password"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "password", value: "" },
-              domProps: { value: _vm.userForm.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.userForm, "password", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
           _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("label", [_vm._v("Date of Birth")]),
-              _vm._v(" "),
-              _c("date-picker", {
-                attrs: { bootstrapStyling: true },
-                model: {
-                  value: _vm.userForm.date_of_birth,
-                  callback: function($$v) {
-                    _vm.$set(_vm.userForm, "date_of_birth", $$v)
-                  },
-                  expression: "userForm.date_of_birth"
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.proceed($event)
                 }
-              })
+              }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("First Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userForm.first_name,
+                          expression: "userForm.first_name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", value: "" },
+                      domProps: { value: _vm.userForm.first_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.userForm,
+                            "first_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Last Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userForm.last_name,
+                          expression: "userForm.last_name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", value: "" },
+                      domProps: { value: _vm.userForm.last_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.userForm,
+                            "last_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Email")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userForm.email,
+                          expression: "userForm.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", value: "" },
+                      domProps: { value: _vm.userForm.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.userForm, "email", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Password")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.userForm.password,
+                          expression: "userForm.password"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "password", value: "" },
+                      domProps: { value: _vm.userForm.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.userForm,
+                            "password",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", [_vm._v("Date of Birth")]),
+                      _vm._v(" "),
+                      _c("date-picker", {
+                        attrs: { bootstrapStyling: true },
+                        model: {
+                          value: _vm.userForm.date_of_birth,
+                          callback: function($$v) {
+                            _vm.$set(_vm.userForm, "date_of_birth", $$v)
+                          },
+                          expression: "userForm.date_of_birth"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Gender")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.userForm.gender,
+                            expression: "userForm.gender"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.userForm,
+                              "gender",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("--- Select Gander ---")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "male" } }, [
+                          _vm._v("Male")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "female" } }, [
+                          _vm._v("Female")
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Status")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.userForm.status,
+                            expression: "userForm.status"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.userForm,
+                              "status",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("--- Select Status ---")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "activated" } }, [
+                          _vm._v("Activated")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "option",
+                          { attrs: { value: "pending_activation" } },
+                          [_vm._v("Pending Activation")]
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-info waves-effect waves-light m-t-10",
+                  attrs: { type: "submit" }
+                },
+                [
+                  _vm.id
+                    ? _c("span", [_vm._v("Update")])
+                    : _c("span", [_vm._v("Save")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-danger waves-effect waves-light m-t-10",
+                  attrs: { to: "/user" }
+                },
+                [_vm._v("Cancel")]
+              )
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("Gender")]),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.userForm.gender,
-                    expression: "userForm.gender"
-                  }
-                ],
-                staticClass: "form-control",
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.userForm,
-                      "gender",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { value: "" } }, [
-                  _vm._v("--- Select Gander ---")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "male" } }, [_vm._v("Male")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "female" } }, [_vm._v("Female")])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("Status")]),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.userForm.status,
-                    expression: "userForm.status"
-                  }
-                ],
-                staticClass: "form-control",
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.userForm,
-                      "status",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { value: "" } }, [
-                  _vm._v("--- Select Status ---")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "activated" } }, [
-                  _vm._v("Activated")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "pending_activation" } }, [
-                  _vm._v("Pending Activation")
-                ])
-              ]
-            )
-          ])
+          )
         ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-info waves-effect waves-light m-t-10",
-          attrs: { type: "submit" }
-        },
-        [_vm.id ? _c("span", [_vm._v("Update")]) : _c("span", [_vm._v("Save")])]
-      ),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        {
-          staticClass: "btn btn-danger waves-effect waves-light m-t-10",
-          attrs: { to: "/user" }
-        },
-        [_vm._v("Cancel")]
-      )
-    ],
-    1
-  )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

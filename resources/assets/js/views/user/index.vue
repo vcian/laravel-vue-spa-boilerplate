@@ -14,17 +14,6 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Add User</h4>
-                        <user-form @completed="getUsers"></user-form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
                         <h4 class="card-title">Filter User</h4>
 
                         <div class="row m-t-40">
@@ -80,6 +69,7 @@
                         </div>
 
                         <h4 class="card-title">User List</h4>
+                        <router-link to="/add-user"><button class="btn badge-info float-right" style="margin-top: -30px">Add User</button></router-link>
                         <h6 class="card-subtitle" v-if="users.total">Total {{users.total}} result found!</h6>
                         <h6 class="card-subtitle" v-else>No result found!</h6>
                         <div class="table-responsive">
@@ -136,13 +126,12 @@
 </template>
 
 <script>
-    import UserForm from './form'
     import pagination from 'laravel-vue-pagination'
     import helper from '../../services/helper'
     import ClickConfirm from 'click-confirm'
 
     export default {
-        components : { UserForm, pagination, ClickConfirm },
+        components : { pagination, ClickConfirm },
         data() {
             return {
                 users: {},
@@ -155,7 +144,7 @@
                 }
             }
         },
-        created() {
+        mounted() {
             this.getUsers();
         },
         methods: {
@@ -169,10 +158,11 @@
             },
             deleteUser(user){
                 axios.delete('/api/v1/user/'+user.id).then(response => {
+                    console.log(response);
                     toastr['success'](response.data.message);
                     this.getUsers();
-                }).catch(error => {
-                    toastr['error'](error.response.data.message);
+                }).catch(response => {
+                    toastr['error'](response.data.message);
                 });
             },
             getUserStatus(user){
@@ -184,7 +174,7 @@
                     return '<span class="label label-danger">Banned</span>';
                 else
                     return;
-            }
+            },
         },
         filters: {
             moment(date) {
