@@ -37,8 +37,8 @@ Route::group(['namespace' => 'Api\V1', 'prefix' => 'v1', 'as' => 'v1.'], functio
         Route::get('/configuration/fetch', 'ConfigurationController@index');
         Route::post('/configuration', 'ConfigurationController@store');
 
-        Route::get('/user', 'UserController@index');
         Route::post('/user', 'UserController@store');
+        Route::get('/user', 'UserController@index');
         Route::post('/user/change-password', 'AuthController@changePassword');
         Route::post('/user/update-profile', 'UserController@updateProfile');
         Route::post('/user/update-avatar', 'UserController@updateAvatar');
