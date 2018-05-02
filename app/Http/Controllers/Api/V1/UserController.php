@@ -76,6 +76,20 @@ class UserController extends APIController
     }
 
     /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $input = $request->all();
+
+        $user = $this->user->storeUser($input);
+
+        return $user;
+    }
+
+    /**
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse

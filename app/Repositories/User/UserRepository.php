@@ -2,7 +2,9 @@
 
 namespace App\Repositories\User;
 
+use App\Models\Profile\Profile;
 use App\Repositories\BaseRepository;
+use App\Notifications\Activation;
 use App\Models\User\User;
 use App\Models\Task\Task;
 use Illuminate\Support\Facades\DB;
@@ -275,6 +277,53 @@ class UserRepository extends BaseRepository
             $recent_incomplete_tasks = Task::whereStatus(0)->orderBy('due_date', 'desc')->limit(5)->get();
 
             return response()->json(compact('users_count', 'tasks_count', 'recent_incomplete_tasks'));
+
+        } catch (\Exception $ex) {
+
+            Log::error($ex->getMessage());
+
+            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
+        }
+    }
+
+    public function storeUser($input = null)
+    {
+        try {
+
+            $validation = Validator::make($input, [
+                'first_name'    => 'required',
+                'last_name'     => 'required',
+                'email'         => 'required|email|unique:users',
+                'password'      => 'required',
+                'date_of_birth' => 'required|date_format:Y-m-d',
+                'gender'        => 'required',
+                'status'        => 'required',
+            ]);
+
+            if ($validation->fails()) {
+                return response()->json(['message' => $validation->messages()->first()], 422);
+            }
+
+            $user = User::create([
+                'email'    => request('email'),
+                'status'   => request('status'),
+                'password' => bcrypt(request('password')),
+            ]);
+            if (request('status') == 'pending_activation')
+                $user->activation_token = generateUuid();
+            $user->save();
+
+            $profile = new Profile();
+            $profile->first_name = request('first_name');
+            $profile->last_name = request('last_name');
+            $profile->date_of_birth = request('date_of_birth');
+            $profile->gender = request('gender');
+            $user->profile()->save($profile);
+
+            if (request('status') == 'pending_activation')
+                $user->notify(new Activation($user));
+
+            return response()->json(['message' => 'User added!']);
 
         } catch (\Exception $ex) {
 
