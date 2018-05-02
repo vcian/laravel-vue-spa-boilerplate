@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Task\Task;
+use App\Repositories\Task\TaskRepository;
 use Illuminate\Http\Request;
-use JWTAuth;
-use Validator;
 
 /**
  * Task Controller.
@@ -13,29 +11,28 @@ use Validator;
 class TaskController extends APIController
 {
     /**
+     * TaskRepository $task
+     *
+     * @var object
+     */
+    protected $task;
+
+    /**
+     * @param TaskRepository $task
+     */
+    public function __construct(TaskRepository $task)
+    {
+        $this->task = $task;
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        try {
-            $tasks = Task::whereNotNull('id');
+        $tasks = $this->task->getTasks();
 
-            if (request()->has('title')) {
-                $tasks->where('title', 'like', '%'.request('title').'%');
-            }
-
-            if (request()->has('status')) {
-                $tasks->whereStatus(request('status'));
-            }
-
-            $tasks->orderBy(request('sortBy'), request('order'));
-
-            return $tasks->paginate(request('pageLength'));
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 
     /**
@@ -45,56 +42,23 @@ class TaskController extends APIController
      */
     public function store(Request $request)
     {
-        try {
-            $validation = Validator::make($request->all(), [
-                'title'       => 'required|unique:tasks',
-                'description' => 'required',
-                'start_date'  => 'required|date_format:Y-m-d',
-                'due_date'    => 'required|date_format:Y-m-d|after:start_date',
-            ]);
+        $input = $request->all();
 
-            if ($validation->fails()) {
-                return response()->json(['message' => $validation->messages()->first()], 422);
-            }
+        $tasks = $this->task->storeTask($input);
 
-            $user = JWTAuth::parseToken()->authenticate();
-            $task = new Task();
-            $task->fill(request()->all());
-            $task->uuid = generateUuid();
-            $task->user_id = $user->id;
-            $task->save();
-
-            return response()->json(['message' => 'Task added!', 'data' => $task]);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 
     /**
-     * @param Request $request
      * @param $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        try {
-            $task = Task::find($id);
+        $tasks = $this->task->deleteTask($id);
 
-            if (!$task) {
-                return response()->json(['message' => 'Couldnot find task!'], 422);
-            }
-
-            $task->delete();
-
-            return response()->json(['message' => 'Task deleted!']);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 
     /**
@@ -104,19 +68,9 @@ class TaskController extends APIController
      */
     public function show($id)
     {
-        try {
-            $task = Task::whereUuid($id)->first();
+        $tasks = $this->task->showTask($id);
 
-            if (!$task) {
-                return response()->json(['message' => 'Couldnot find task!'], 422);
-            }
-
-            return $task;
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 
     /**
@@ -127,37 +81,11 @@ class TaskController extends APIController
      */
     public function update(Request $request, $id)
     {
-        try {
-            $task = Task::whereUuid($id)->first();
+        $input = $request->all();
 
-            if (!$task) {
-                return response()->json(['message' => 'Couldnot find task!']);
-            }
+        $tasks = $this->task->updateTask($input, $id);
 
-            $validation = Validator::make($request->all(), [
-                'title'       => 'required|unique:tasks,title,'.$task->id.',id',
-                'description' => 'required',
-                'start_date'  => 'required|date_format:Y-m-d',
-                'due_date'    => 'required|date_format:Y-m-d|after:start_date',
-            ]);
-
-            if ($validation->fails()) {
-                return response()->json(['message' => $validation->messages()->first()], 422);
-            }
-
-            $task->title = request('title');
-            $task->description = request('description');
-            $task->start_date = request('start_date');
-            $task->due_date = request('due_date');
-            $task->progress = request('progress');
-            $task->save();
-
-            return response()->json(['message' => 'Task updated!', 'data' => $task]);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 
     /**
@@ -167,21 +95,8 @@ class TaskController extends APIController
      */
     public function toggleStatus(Request $request)
     {
-        try {
-            $task = Task::find($request->input('id'));
+        $tasks = $this->task->taskStatus($request);
 
-            if (!$task) {
-                return response()->json(['message' => 'Couldnot find task!'], 422);
-            }
-
-            $task->status = !$task->status;
-            $task->save();
-
-            return response()->json(['message' => 'Task updated!']);
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-
-            return response()->json(['message' => 'Sorry, something went wrong!'], 422);
-        }
+        return $tasks;
     }
 }

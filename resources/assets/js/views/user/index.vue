@@ -14,6 +14,17 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <h4 class="card-title">Add User</h4>
+                        <user-form @completed="getUsers"></user-form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
                         <h4 class="card-title">Filter User</h4>
 
                         <div class="row m-t-40">
@@ -125,12 +136,13 @@
 </template>
 
 <script>
+    import UserForm from './form'
     import pagination from 'laravel-vue-pagination'
     import helper from '../../services/helper'
     import ClickConfirm from 'click-confirm'
 
     export default {
-        components : { pagination, ClickConfirm },
+        components : { UserForm, pagination, ClickConfirm },
         data() {
             return {
                 users: {},
@@ -143,7 +155,7 @@
                 }
             }
         },
-        mounted() {
+        created() {
             this.getUsers();
         },
         methods: {

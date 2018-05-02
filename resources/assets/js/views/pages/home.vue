@@ -80,7 +80,7 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <select class="custom-select float-right" v-model="show_todo_status" @change="filterTodo" v-if="todos.length">
+                        <select class="custom-select float-right" v-model="show_todo_status" @change="filterTodo">
                             <option selected value=''>All</option>
                             <option value="1">Completed</option>
                             <option value="0">Incompleted</option>
@@ -126,7 +126,7 @@
                 todoForm: new Form({
                     'todo': ''
                 }),
-                show_todo_status: '1'
+                show_todo_status: ''
             }
         },
         components : { ClickConfirm },
@@ -162,6 +162,7 @@
             },
             toggleTodoStatus(todo){
                 axios.post('/api/v1/todo/status',{id:todo.id}).then(response => {
+                    toastr['success'](response.data.message);
                     todo.status = !todo.status;
                 }).catch(error => {
                     toastr['error'](error.response.message);
