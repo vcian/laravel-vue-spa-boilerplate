@@ -23737,6 +23737,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         toggleTodoStatus: function toggleTodoStatus(todo) {
             axios.post('/api/v1/todo/status', { id: todo.id }).then(function (response) {
+                toastr['success'](response.data.message);
                 todo.status = !todo.status;
             }).catch(function (error) {
                 toastr['error'](error.response.message);
@@ -23933,53 +23934,47 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _vm.todos.length
-              ? _c(
-                  "select",
+            _c(
+              "select",
+              {
+                directives: [
                   {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.show_todo_status,
-                        expression: "show_todo_status"
-                      }
-                    ],
-                    staticClass: "custom-select float-right",
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.show_todo_status = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        },
-                        _vm.filterTodo
-                      ]
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { selected: "", value: "" } }, [
-                      _vm._v("All")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "1" } }, [
-                      _vm._v("Completed")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "0" } }, [
-                      _vm._v("Incompleted")
-                    ])
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.show_todo_status,
+                    expression: "show_todo_status"
+                  }
+                ],
+                staticClass: "custom-select float-right",
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.show_todo_status = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    _vm.filterTodo
                   ]
-                )
-              : _vm._e(),
+                }
+              },
+              [
+                _c("option", { attrs: { selected: "", value: "" } }, [
+                  _vm._v("All")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Completed")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "0" } }, [_vm._v("Incompleted")])
+              ]
+            ),
             _vm._v(" "),
             _c("h4", { staticClass: "card-title" }, [_vm._v("Todo list")]),
             _vm._v(" "),
@@ -30341,7 +30336,7 @@ if (false) {
 /* 130 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: write EPIPE\n    at _errnoException (util.js:1024:11)\n    at WriteWrap.afterWrite [as oncomplete] (net.js:867:14)\n    at runLoaders (/var/www/laravel-vue-spa-boilerplate/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /var/www/laravel-vue-spa-boilerplate/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /var/www/laravel-vue-spa-boilerplate/node_modules/loader-runner/lib/LoaderRunner.js:230:18\n    at context.callback (/var/www/laravel-vue-spa-boilerplate/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at /var/www/laravel-vue-spa-boilerplate/node_modules/img-loader/index.js:45:31\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)");
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
