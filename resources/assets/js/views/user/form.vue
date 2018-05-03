@@ -69,6 +69,7 @@
                                         <option value="">--- Select Status ---</option>
                                         <option value="activated">Activated</option>
                                         <option value="pending_activation">Pending Activation</option>
+                                        <option value="banned">Banned</option>
                                     </select>
                                 </div>
                             </div>
