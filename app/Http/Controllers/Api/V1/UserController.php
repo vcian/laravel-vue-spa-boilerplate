@@ -102,6 +102,33 @@ class UserController extends APIController
     }
 
     /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        $tasks = $this->user->showUser($id);
+
+        return $tasks;
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $user = $this->user->updateUser($input, $id);
+
+        return $user;
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function dashboard()

@@ -15,6 +15,9 @@ class TaskRepository extends BaseRepository
      */
     const MODEL = Task::class;
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getTasks()
     {
         try {
@@ -41,6 +44,10 @@ class TaskRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param null $input
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function storeTask($input = null)
     {
         try {
@@ -73,6 +80,10 @@ class TaskRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param null $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteTask($id = null)
     {
         try {
@@ -95,6 +106,10 @@ class TaskRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param null $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function showTask($id = null)
     {
         try {
@@ -114,6 +129,11 @@ class TaskRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param null $input
+     * @param null $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateTask($input = null, $id = null)
     {
         try {
@@ -152,6 +172,10 @@ class TaskRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param null $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function taskStatus($request = null)
     {
         try {

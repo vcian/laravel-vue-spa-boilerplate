@@ -94,6 +94,7 @@
                                         <td v-text="user.email"></td>
                                         <td v-html="getUserStatus(user)"></td>
                                         <td>
+                                            <button class="btn btn-info btn-sm float-left margin-correction" @click.prevent="editUser(user)" data-toggle="tooltip" title="Edit User"><i class="fa fa-pencil"></i></button>
                                             <click-confirm yes-class="btn btn-success" no-class="btn btn-danger">
                                                 <button class="btn btn-danger btn-sm" @click.prevent="deleteUser(user)" data-toggle="tooltip" title="Delete User"><i class="fa fa-trash"></i></button>
                                             </click-confirm>
@@ -164,6 +165,9 @@
                 }).catch(response => {
                     toastr['error'](response.data.message);
                 });
+            },
+            editUser(user){
+                this.$router.push('/user/'+user.id+'/edit');
             },
             getUserStatus(user){
                 if(user.status == 'pending_activation')

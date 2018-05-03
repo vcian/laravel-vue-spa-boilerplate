@@ -37,6 +37,7 @@ Route::group(['namespace' => 'Api\V1', 'prefix' => 'v1', 'as' => 'v1.'], functio
         Route::get('/configuration/fetch', 'ConfigurationController@index');
         Route::post('/configuration', 'ConfigurationController@store');
 
+        Route::get('/user/dashboard', 'UserController@dashboard');
         Route::post('/user', 'UserController@store');
         Route::get('/user', 'UserController@index');
         Route::post('/user/change-password', 'AuthController@changePassword');
@@ -44,7 +45,8 @@ Route::group(['namespace' => 'Api\V1', 'prefix' => 'v1', 'as' => 'v1.'], functio
         Route::post('/user/update-avatar', 'UserController@updateAvatar');
         Route::post('/user/remove-avatar', 'UserController@removeAvatar');
         Route::delete('/user/{id}', 'UserController@destroy');
-        Route::get('/user/dashboard', 'UserController@dashboard');
+        Route::get('/user/{id}', 'UserController@show');
+        Route::patch('/user/{id}', 'UserController@update');
 
         Route::post('todo', 'TodoController@store');
         Route::get('/todo', 'TodoController@index');
