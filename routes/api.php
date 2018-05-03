@@ -44,6 +44,8 @@ Route::group(['namespace' => 'Api\V1', 'prefix' => 'v1', 'as' => 'v1.'], functio
         Route::post('/user/update-avatar', 'UserController@updateAvatar');
         Route::post('/user/remove-avatar', 'UserController@removeAvatar');
         Route::delete('/user/{id}', 'UserController@destroy');
+        Route::get('/user/{id}', 'UserController@show');
+        Route::patch('/user/{id}', 'UserController@update');
         Route::get('/user/dashboard', 'UserController@dashboard');
 
         Route::post('todo', 'TodoController@store');
