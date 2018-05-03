@@ -25685,6 +25685,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             axios.post('/api/v1/task/status', { id: task.id }).then(function (response) {
+                toastr['success'](response.data.message);
                 _this3.getTasks();
             });
         }
@@ -25847,7 +25848,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.taskForm.patch('/api/v1/task/' + this.id).then(function (response) {
-                if (response.type == 'error') toastr['error'](response.message);else {
+                if (response.type === 'error') toastr['error'](response.message);else {
+                    toastr['success'](response.message);
                     _this3.$router.push('/task');
                 }
             }).catch(function (response) {
@@ -27088,7 +27090,10 @@ var render = function() {
                               "div",
                               {
                                 staticClass: "progress",
-                                staticStyle: { height: "10px" }
+                                staticStyle: {
+                                  height: "10px",
+                                  "margin-top": "4px"
+                                }
                               },
                               [
                                 _c("div", {
@@ -27126,7 +27131,8 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "btn btn-info btn-sm",
+                                  staticClass:
+                                    "btn btn-info btn-sm float-left margin-correction",
                                   attrs: {
                                     "data-toggle": "tooltip",
                                     title: "Edit Task"
@@ -27145,7 +27151,8 @@ var render = function() {
                                 ? _c(
                                     "button",
                                     {
-                                      staticClass: "btn btn-danger btn-sm",
+                                      staticClass:
+                                        "btn btn-danger btn-sm float-left margin-correction",
                                       attrs: {
                                         "data-toggle": "tooltip",
                                         title: "Mark as Incomplete"
@@ -27162,7 +27169,8 @@ var render = function() {
                                 : _c(
                                     "button",
                                     {
-                                      staticClass: "btn btn-success btn-sm",
+                                      staticClass:
+                                        "btn btn-success btn-sm float-left margin-correction",
                                       attrs: {
                                         "data-toggle": "tooltip",
                                         title: "Mark as Complete"
@@ -28389,6 +28397,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -28801,7 +28810,11 @@ var render = function() {
                           "option",
                           { attrs: { value: "pending_activation" } },
                           [_vm._v("Pending Activation")]
-                        )
+                        ),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "banned" } }, [
+                          _vm._v("Banned")
+                        ])
                       ]
                     )
                   ])

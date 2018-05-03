@@ -418,9 +418,9 @@ class UserRepository extends BaseRepository
             $user = User::userProfile()->whereId($id)->first(); // get user details with profile
 
             $user->email = request('email');
-            $user->password = request('password');
             $user->status = request('status');
-
+            if (request('password'))
+                $user->password = bcrypt(request('password'));
             if (request('status') == 'pending_activation')
                 $user->activation_token = generateUuid();   // generate uuid if status not active
 
