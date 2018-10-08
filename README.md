@@ -58,7 +58,7 @@ Start the local development server
 
 You can now access the server at http://localhost:8000
 
-**TL;DR command list**
+**For Windows system command list**
 
     git clone https://github.com/viitoradmin/laravel-vue-spa-boilerplate.git
     cd laravel-vue-spa-boilerplate
@@ -72,6 +72,12 @@ You can now access the server at http://localhost:8000
     php artisan migrate
     php artisan serve
 
+## Demo Credentials
+
+   Email:- admin@admin.com
+   
+   Password:- 1234
+   
 ## Environment variables
 
 - `.env` - Environment variables can be set in this file
