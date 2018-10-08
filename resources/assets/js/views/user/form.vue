@@ -1,9 +1,31 @@
 <template>
     <div class="row">
+
+        <div class="page-titles col-md-12 col-8 align-self-center" v-if="id">
+            <h3 class="text-themecolor m-b-0 m-t-0">Edit User</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/home">Home</router-link></li>
+                <li class="breadcrumb-item"><router-link to="/user">User</router-link></li>
+                <li class="breadcrumb-item active">Edit User</li>
+            </ol>
+        </div>
+
+        <div class="page-titles col-md-12 col-8 align-self-center" v-else>
+            <h3 class="text-themecolor m-b-0 m-t-0">Add User</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/home">Home</router-link></li>
+                <li class="breadcrumb-item"><router-link to="/user">User</router-link></li>
+                <li class="breadcrumb-item active">Add User</li>
+            </ol>
+        </div>
+
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Add new Task</h4>
+                    <h4 class="card-title">
+                        <span v-if="id">Edit User</span>
+                        <span v-else>Add User</span>
+                    </h4>
                     <form @submit.prevent="proceed">
                         <div class="row">
                             <div class="col-md-6">
@@ -47,6 +69,7 @@
                                         <option value="">--- Select Status ---</option>
                                         <option value="activated">Activated</option>
                                         <option value="pending_activation">Pending Activation</option>
+                                        <option value="banned">Banned</option>
                                     </select>
                                 </div>
                             </div>
@@ -121,12 +144,10 @@
                     })
             },
             updateUser() {
-                this.taskForm.patch('/api/v1/user/'+this.id)
+                this.userForm.patch('/api/v1/user/'+this.id)
                     .then(response => {
-                        if (response.type === 'error')
-                            toastr['error'](response.message);
-                        else
-                            this.$router.push('/user')
+                        toastr['success'](response.message);
+                        this.$router.push('/user')
                     })
                     .catch(response => {
                         toastr['error'](response.message);

@@ -97,9 +97,10 @@
             updateTask(){
                 this.taskForm.patch('/api/v1/task/'+this.id)
                 .then(response => {
-                    if(response.type == 'error')
+                    if(response.type === 'error')
                         toastr['error'](response.message);
                     else {
+                        toastr['success'](response.message);
                         this.$router.push('/task');
                     }
                 })

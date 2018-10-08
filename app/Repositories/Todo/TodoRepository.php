@@ -15,6 +15,9 @@ class TodoRepository extends BaseRepository
      */
     const MODEL = Todo::class;
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getTodoList()
     {
         try {
@@ -40,6 +43,10 @@ class TodoRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param null $input
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function storeTodo($input = null)
     {
         try {
@@ -68,6 +75,9 @@ class TodoRepository extends BaseRepository
         }
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function todoStatus()
     {
         try {
@@ -93,6 +103,10 @@ class TodoRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param null $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteTodo($id = null)
     {
         try {
