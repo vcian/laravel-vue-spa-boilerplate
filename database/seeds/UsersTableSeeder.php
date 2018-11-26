@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
 
         factory(User::class, 1)->create([
             'email'    => 'admin@admin.com',
-            'password' => bcrypt('1234'),
+            'password' => bcrypt('123456'),
         ]);
 
         $this->enableForeignKeys();
