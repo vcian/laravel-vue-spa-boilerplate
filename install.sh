@@ -23,6 +23,6 @@ echo -e "\033[32mCurrent enable PHP Modules:\033[0m"
 php -m
 echo "-----------------------------------------"
 
-echo -e "\033[32mStarting install multiple language manipulate...\033[0m"
+echo -e "\033[32mStarting install laravel vue spa boilerplate...\033[0m"
 Composer install
 php artisan install:app
