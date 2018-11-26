@@ -2,14 +2,21 @@
 
 namespace App\Console\Commands;
 
-use DB;
-use File;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use PDOException;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Question\Question;
 
+/**
+ * Class InstallAppCommand
+ * @package App\Console\Commands
+ *
+ * @author Ruchit Patel
+ */
 class InstallAppCommand extends Command
 {
     /**
@@ -24,7 +31,7 @@ class InstallAppCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Installation of Laravel-Vue-Spa-Boilerplate: Laravel setup';
+    protected $description = 'Installation of Laravel Vue Spa Boilerplate';
 
     /**
      * The filesystem instance.
@@ -34,16 +41,13 @@ class InstallAppCommand extends Command
     protected $files;
 
     /**
-     * Create a new command instance.
+     * InstallAppCommand constructor.
      *
      * @param Filesystem $files
-     *
-     * @internal param Filesystem $filesystem
      */
     public function __construct(Filesystem $files)
     {
         parent::__construct();
-
         $this->files = $files;
     }
 
@@ -55,8 +59,9 @@ class InstallAppCommand extends Command
     public function handle()
     {
         $this->line('------------------');
-        $this->line('Welcome to Laravel-Vue-Spa-Boilerplate.');
+        $this->line('Welcome to Laravel Vue Spa Boilerplate demo .');
         $this->line('------------------');
+        exec('composer install'); // composer install
 
         $extensions = get_loaded_extensions();
         $require_extensions = ['mbstring', 'openssl', 'curl', 'exif', 'fileinfo', 'tokenizer'];
@@ -75,16 +80,46 @@ class InstallAppCommand extends Command
         //Key Generate
         Artisan::call('key:generate');
         $this->line('Key generated in .env file!');
+        $this->line('------------------');
+
+        //JWT Key Generate
+        // jwt:generate for older version
+        // jwt:secret for new version
+        Artisan::call('jwt:secret');
+        $this->line('JWT Key generated!');
+        $this->line('------------------');
+
+        //Cache Clear
+        Artisan::call('cache:clear');
+        $this->info('Application cache cleared!');
+        $this->line('------------------');
+
+        //Route Clear
+        Artisan::call('route:clear');
+        $this->info('Route cache cleared!');
+        $this->line('------------------');
+
+        //Config Clear
+        Artisan::call('config:clear');
+        $this->info('Configuration cache cleared!');
+        $this->line('------------------');
+
+        //View Clear
+        Artisan::call('view:clear');
+        $this->info('Compiled view cleared!');
+        $this->line('------------------');
+
+        $this->info('Now you can access the application on below url!');
+        $this->line('Laravel development server started: <http://127.0.0.1:8000>');
+        Artisan::call('serve');
     }
 
     /**
      * Set Database info in .env file.
      *
-     * @throws Exception
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      *
      * @return void
-     *
-     * @author Viral Solani
      */
     protected function setDatabaseInfo()
     {
@@ -96,17 +131,18 @@ class InstallAppCommand extends Command
         $this->username = env('DB_USERNAME');
         $this->password = env('DB_PASSWORD');
 
-        while (!check_database_connection()) {
+        while (!checkDatabaseConnection()) {
             // Ask for database details
-            $this->host = $this->ask('Enter a host name?', 'localhost');
-            $this->port = $this->ask('Enter a database port?', 3306);
+            $this->host = $this->ask('Enter a host name?', config('config-variables.default_db_host'));
+            $this->port = $this->ask('Enter a database port?', config('config-variables.default_db_port'));
             $this->database = $this->ask('Enter a database name', $this->guessDatabaseName());
 
-            $this->username = $this->ask('What is your MySQL username?', 'root');
+            $this->username = $this->ask('What is your MySQL username?', config('config-variables.default_db_username'));
 
             $question = new Question('What is your MySQL password?', '<none>');
             $question->setHidden(true)->setHiddenFallback(true);
             $this->password = (new SymfonyQuestionHelper())->ask($this->input, $this->output, $question);
+
             if ($this->password === '<none>') {
                 $this->password = '';
             }
@@ -133,36 +169,19 @@ class InstallAppCommand extends Command
             // Clear DB name in config
             unset($this->laravel['config']['database.connections.mysql.database']);
 
-            if (!check_database_connection()) {
-                $this->error('Can not connect to database, please try again!');
+            if (!checkDatabaseConnection()) {
+                $this->error('Can not connect to database!');
             } else {
-                $this->info('Connect to database successfully!');
+                $this->info('Connected successfully!');
             }
         }
 
+        $this->createDatabase($this->database); // create database if not exists.
+
         if ($this->confirm('You want to dump database sql ?')) {
-            if (!empty($this->database)) {
-                // Force the new login to be used
-                DB::purge();
-
-                // Switch to use {$this->database}
-                DB::unprepared('USE `'.$this->database.'`');
-                DB::connection()->setDatabaseName($this->database);
-
-                $dumpDB = DB::unprepared(file_get_contents(base_path().'/database/dump/laravel_vue_spa_boilerplate.sql'));
-
-                if ($dumpDB) {
-                    $this->info('Import default database successfully!');
-                }
-            }
+            $this->dumpDB($this->database);
         } else {
-            if ($this->confirm('You want to migrate tables?')) {
-                // Switch to use {$this->database}
-                DB::unprepared('USE `'.$this->database.'`');
-                //DB::connection()->setDatabaseName($this->database);
-                Artisan::call('migrate');
-                $this->info('Migration successfully done!');
-            }
+            $this->migrateTables($this->database);
         }
     }
 
@@ -170,8 +189,6 @@ class InstallAppCommand extends Command
      * Guess database name from app folder.
      *
      * @return string
-     *
-     * @author Viral Solani
      */
     protected function guessDatabaseName()
     {
@@ -179,21 +196,86 @@ class InstallAppCommand extends Command
             $segments = array_reverse(explode(DIRECTORY_SEPARATOR, app_path()));
             $name = explode('.', $segments[1])[0];
 
-            return str_slug($name);
+            return str_replace('-', '_', str_slug($name));
         } catch (Exception $e) {
             return '';
         }
     }
 
     /**
-     * Get the key file and return its content.
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      *
      * @return string
-     *
-     * @author Viral Solani
      */
     protected function getKeyFile()
     {
         return $this->files->exists('.env') ? $this->files->get('.env') : $this->files->get('.env.example');
+    }
+
+    /**
+     * @param $database
+     */
+    protected function createDatabase($database)
+    {
+        if (!$database) {
+            $this->info('Skipping creation of database as env(DB_DATABASE) is empty');
+
+            return;
+        }
+
+        try {
+            $query = "CREATE DATABASE IF NOT EXISTS $database CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
+            if (DB::statement($query)) {
+                $this->info("Successfully created $database database");
+            } else {
+                $this->info('Oops, Something went wrong, please try again or create database manually !!!');
+            }
+
+            return;
+        } catch (PDOException $exception) {
+            $this->error(sprintf('Failed to create %s database, %s', $database, $exception->getMessage()));
+
+            return;
+        }
+    }
+
+    /**
+     * @param $database
+     */
+    protected function dumpDB($database)
+    {
+        if (!empty($database)) {
+            // Force the new login to be used
+            DB::purge();
+
+            // Switch to use {$this->database}
+            DB::unprepared('USE `'.$database.'`');
+            DB::connection()->setDatabaseName($database);
+
+            $dumpDB = DB::unprepared(file_get_contents(base_path().'/database/dump/laravel_vue_spa_boilerplate.sql'));
+
+            if ($dumpDB) {
+                $this->info('Import default database successfully!');
+            }
+        }
+    }
+
+    /**
+     * @param $database
+     */
+    protected function migrateTables($database)
+    {
+        if ($this->confirm('You want to migrate tables?')) {
+            // Switch to use {$this->database}
+            DB::unprepared('USE `'.$database.'`');
+            //DB::connection()->setDatabaseName($this->database);
+            Artisan::call('migrate');
+            $this->info('Migration successfully done!');
+
+            if ($this->confirm('You want to seeding your database?')) {
+                Artisan::call('db:seed');
+                $this->info('Seeding successfully done!');
+            }
+        }
     }
 }
