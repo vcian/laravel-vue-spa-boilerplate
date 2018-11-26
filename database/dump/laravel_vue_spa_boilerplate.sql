@@ -162,7 +162,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `provider`, `provider_unique_id`, `activation_token`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin@admin.com', '$2y$10$bET0k6vxZqZn4c5y.lxY2ui45wFxfDplCNzzr6ENQ6KTPXz76Y2UO', NULL, NULL, '66000533-7a78-40e4-b17f-8de7d960f77c', 'activated', NULL, '2017-10-25 02:09:47', '2017-10-25 02:09:47');
+(1, 'admin@admin.com', '$2y$10$dfmh6Wna8t/3q21jsHL7a..7wo.Kr5Au2Xfcf2VZ0MMLeb4L2hsN.', NULL, NULL, 'PjsNwAfqit', 'activated', 'Ii8iT52WFw' , '2017-10-25 02:09:47', '2017-10-25 02:09:47');
 
 --
 -- Indexes for dumped tables
