@@ -9,7 +9,7 @@
 	    <meta name="author" content="">
 	    <title>Laravel Vue.js SPA Admin Starter Kit</title>
 	    <meta name="csrf-token" content="{{ csrf_token() }}" />
-    	<link rel="shortcut icon" href="/images/favicon.png">
+    	<link rel="shortcut icon" href="/images/new-favicon.ico">
 	    <link href="/css/style.css" rel="stylesheet">
 	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
