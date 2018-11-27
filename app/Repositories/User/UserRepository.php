@@ -37,7 +37,7 @@ class UserRepository extends BaseRepository
     {
         try {
 
-            $users = User::userProfile();
+            $users = User::select('users.*', \DB::raw('(SELECT first_name FROM profiles WHERE profiles.user_id = users.id ) as first_name, (SELECT last_name FROM profiles WHERE profiles.user_id = users.id ) as last_name'))->userProfile();
 
             if ($request->has('first_name')) {
                 $users->whereHas('profile', function ($q) use ($request) {
@@ -59,13 +59,7 @@ class UserRepository extends BaseRepository
                 $users->whereStatus(request('status'));
             }
 
-            if (request('sortBy') == 'first_name' || request('sortBy') == 'last_name') {
-                $users->with(['profile' => function ($q) {
-                    $q->orderBy(request('sortBy'), request('order'));
-                }]);
-            } else {
-                $users->orderBy(request('sortBy'), request('order'));
-            }
+            $users->orderBy(request('sortBy'), request('order'));
 
             return $users->paginate(request('pageLength'));
 
