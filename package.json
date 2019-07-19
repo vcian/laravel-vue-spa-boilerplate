@@ -10,23 +10,27 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "axios": "^0.16.2",
-    "browser-sync": "^2.23.7",
-    "browser-sync-webpack-plugin": "^1.2.0",
-    "cross-env": "^5.1.4",
-    "laravel-mix": "^1.7.2",
-    "normalize-scss": "^7.0.1"
+    "axios": "^0.19.0",
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "cross-env": "^5.2.0",
+    "laravel-mix": "^4.1.2",
+    "normalize-scss": "^7.0.1",
+    "resolve-url-loader": "^3.1.0",
+    "sass": "^1.22.7",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
-    "click-confirm": "^1.1.0",
+    "click-confirm": "^2.1.1",
     "js-cookie": "^2.2.0",
-    "laravel-vue-pagination": "^1.2.0",
-    "vee-validate": "^2.0.8",
-    "vue": "^2.5.16",
-    "vue-range-slider": "^0.2.4",
-    "vue-router": "^2.7.0",
-    "vuejs-datepicker": "^0.9.29",
-    "vuex": "^2.4.0",
-    "vuex-persistedstate": "^2.5.2"
+    "laravel-vue-pagination": "^2.3.0",
+    "vee-validate": "^2.2.13",
+    "vue": "^2.6.10",
+    "vue-range-slider": "^0.6.0",
+    "vue-router": "^3.0.7",
+    "vuejs-datepicker": "^1.6.2",
+    "vuex": "^3.1.1",
+    "vuex-persistedstate": "^2.5.4"
   }
 }
